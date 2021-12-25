@@ -2,10 +2,10 @@ import { useState, useEffect } from 'react'
 import ReactDOM from 'react-dom';
 import { Accordion, AccordionDetails, AccordionSummary, Grid, Typography } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import Footer from './Components/Footer';
-import Header from './Components/Header';
-import CardEvent from './Components/CardEvent';
-import CardService from './Components/CardService';
+import Footer from '../Components/Footer';
+import Header from '../Components/Header';
+import CardEvent from '../Components/CardEvent';
+import CardService from '../Components/CardService';
 
 function Home() {
   const [text, setText] = useState();
