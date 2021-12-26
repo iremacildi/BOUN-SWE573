@@ -16,7 +16,7 @@ const DetailService = (props) => {
             </DialogTitle>
             <DialogContent>
                 <DialogContentText>
-                    <img src={plants} style={{ width: '530px' }} /><br /><br />
+                    <img src={plants} alt="Service Cover Photo" style={{ width: '530px' }} /><br /><br />
                     <Typography variant="body2" color="text.secondary">
                         Location: Kadikoy, Istanbul<br />
                         Date: April 28, 2022<br />

@@ -16,7 +16,7 @@ const DetailEvent = (props) => {
             </DialogTitle>
             <DialogContent>
                 <DialogContentText>
-                    <img src={picnic} style={{ width: '530px' }} /><br /><br />
+                    <img src={picnic} alt="Event Cover Photo" style={{ width: '530px' }} /><br /><br />
                     <Typography variant="body2" color="text.secondary">
                         Location: Kadikoy, Istanbul<br />
                         Date: April 28, 2022<br />

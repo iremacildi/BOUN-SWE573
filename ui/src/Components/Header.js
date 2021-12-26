@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react'
 import logo from '../img/logo.png'
 import logoSmall from '../img/logoSmall.png'
-import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 import SortIcon from '@mui/icons-material/Sort';
@@ -31,7 +30,7 @@ const Header = (props) => {
     return (
         <Grid container spacing={1} columns={24} className="header" direction="row" alignItems="center">
             <Grid container item xs={6} sm={6} md={6} lg={6} xl={6} justifyContent="flex-start" alignItems="center">
-                <img src={logoImg} />
+                <img src={logoImg} alt="Community Platform Logo"/>
             </Grid>
             <Grid container item spacing={1} xs={12} sm={12} md={12} lg={12} xl={12} justifyContent="flex-end" alignItems="center">
                 <Grid item xs={22} sm={24} md={24} lg={14} xl={15}>
