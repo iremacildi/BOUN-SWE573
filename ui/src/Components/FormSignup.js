@@ -6,11 +6,13 @@ import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import CloseIcon from '@mui/icons-material/Close';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import Copyright from './Copyright';
 import { IMaskInput } from 'react-imask';
 import { PropTypes } from 'prop-types';
+import { IconButton, Snackbar } from '@mui/material';
 
 const TextMaskCustom = React.forwardRef(function TextMaskCustom(props, ref) {
     const { onChange, ...other } = props;
@@ -34,9 +36,51 @@ TextMaskCustom.propTypes = {
 };
 
 export default function FormSignup() {
-    const [values, setValues] = React.useState({
-        phonenumber: ''
-    });
+    const [values, setValues] = React.useState({ phonenumber: '' });
+    const [open, setOpen] = React.useState(false);
+    const [message, setMessage] = React.useState('');
+
+    const createUser = (body) => {
+        fetch('http://localhost:5000/create', {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(body)
+        })
+            .then(
+                (result) => {
+                    setMessage("You signed up successfully! Hooray!")
+                    setOpen(true)
+                },
+                (error) => {
+                    setMessage("So sorrrry, we couldn't create your account :( Please try again.")
+                    setOpen(true)
+                }
+            )
+            .catch(error => console.log(error))
+    };
+
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+
+        setOpen(false);
+    };
+
+    const action = (
+        <React.Fragment>
+            <IconButton
+                size="small"
+                aria-label="close"
+                color="inherit"
+                onClick={handleClose}
+            >
+                <CloseIcon fontSize="small" />
+            </IconButton>
+        </React.Fragment>
+    );
 
     const handleChange = (event) => {
         setValues({
@@ -48,10 +92,18 @@ export default function FormSignup() {
     const handleSubmit = (event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
-        console.log({
+
+        const body = {
+            username: data.get('firstName'),
+            surname: data.get('lastName'),
+            nickname: data.get('username'),
             email: data.get('email'),
-            password: data.get('password'),
-        });
+            phonenumber: data.get('phonenumber'),
+            profilepictureurl: 'url',
+            password: data.get('password')
+        }
+
+        createUser(body);
     };
 
     return (
@@ -136,7 +188,7 @@ export default function FormSignup() {
                                     inputComponent: TextMaskCustom,
                                     value: values.phonenumber,
                                     onChange: handleChange,
-                                  }}
+                                }}
                             />
                         </Grid>
                     </Grid>
@@ -145,7 +197,7 @@ export default function FormSignup() {
                         fullWidth
                         variant="contained"
                         sx={{ mt: 3, mb: 2 }}
-                        style={{backgroundColor:"darkslategray"}}
+                        style={{ backgroundColor: "darkslategray" }}
                     >
                         Sign Up
                     </Button>
@@ -158,6 +210,13 @@ export default function FormSignup() {
                     </Grid>
                 </Box>
             </Box>
+            <Snackbar
+                open={open}
+                autoHideDuration={6000}
+                onClose={handleClose}
+                message={message}
+                action={action}
+            />
             <Copyright sx={{ mt: 5 }} />
         </Container>
     );
