@@ -3,5 +3,7 @@ CONFIG = {
    'postgresUser':'newuser',
    'postgresPass':'1234',
    'postgresDb':'postgres',
-   'secretKey':'topSecret'
+   'secretKey':'topSecret',
+   'jwtAccessLifespan':{'hours': 24},
+   'jwtRefreshLifespan':{'days': 30}
 }

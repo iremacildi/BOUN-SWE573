@@ -54,7 +54,7 @@ export default function FormSignup() {
                     setOpen(true)
                 },
                 (error) => {
-                    setMessage("So sorrrry, we couldn't create your account :( Please try again.")
+                    setMessage("So sorry, we couldn't create your account :( Please try again.")
                     setOpen(true)
                 }
             )
@@ -96,7 +96,7 @@ export default function FormSignup() {
         const body = {
             username: data.get('firstName'),
             surname: data.get('lastName'),
-            nickname: data.get('username'),
+            username: data.get('username'),
             email: data.get('email'),
             phonenumber: data.get('phonenumber'),
             profilepictureurl: 'url',

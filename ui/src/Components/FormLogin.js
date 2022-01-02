@@ -1,3 +1,4 @@
+import * as React from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
@@ -10,16 +11,67 @@ import Grid from '@mui/material/Grid';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Copyright from './Copyright';
+import { IconButton, Snackbar } from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
 
 export default function FormLogin() {
+    const [open, setOpen] = React.useState(false);
+    const [message, setMessage] = React.useState('');
+
     const handleSubmit = (event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
-        console.log({
+
+        const body = {
             email: data.get('email'),
-            password: data.get('password'),
-        });
+            password: data.get('password')
+        }
+
+        loginUser(body);
     };
+
+    const loginUser = (body) => {
+        fetch('/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(body)
+        })
+            .then(
+                (result) => {
+                    setMessage("You signed up successfully! Hooray!")
+                    setOpen(true)
+                },
+                (error) => {
+                    setMessage("So sorry, we couldn't create your account :( Please try again.")
+                    setOpen(true)
+                }
+            )
+            .catch(error => console.log(error))
+    };
+
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+
+        setOpen(false);
+    };
+
+    const action = (
+        <React.Fragment>
+            <IconButton
+                size="small"
+                aria-label="close"
+                color="inherit"
+                onClick={handleClose}
+            >
+                <CloseIcon fontSize="small" />
+            </IconButton>
+        </React.Fragment>
+    );
+
     return (
         <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
             <Box
@@ -86,6 +138,13 @@ export default function FormLogin() {
                     <Copyright sx={{ mt: 5 }} />
                 </Box>
             </Box>
+            <Snackbar
+                open={open}
+                autoHideDuration={6000}
+                onClose={handleClose}
+                message={message}
+                action={action}
+            />
         </Grid>
     );
 }
