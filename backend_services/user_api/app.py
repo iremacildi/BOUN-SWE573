@@ -1,4 +1,4 @@
-from flask import Flask, current_app
+from flask import Flask
 from flask_bcrypt import Bcrypt
 from flask_cors import CORS
 import config
@@ -6,7 +6,6 @@ from flask_marshmallow import Marshmallow
 from flask_praetorian import Praetorian
 from data.db_manager import db
 from data.user_repository import UserRepository 
-
 
 app = Flask(__name__)
 app_context = app.app_context()

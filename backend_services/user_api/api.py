@@ -1,8 +1,7 @@
-from flask import request, jsonify, make_response, Response
+from flask import request, jsonify, make_response
 from app import app, guard
 from data.user_repository import UserRepository
 from model.user_model import user_model
-from flask_cors import cross_origin
 import json
 
 @app.route("/")
@@ -41,4 +40,3 @@ def login_user():
     resp.set_cookie('access_token', guard.encode_jwt_token(user), httponly=True)
     return resp
 
-#
