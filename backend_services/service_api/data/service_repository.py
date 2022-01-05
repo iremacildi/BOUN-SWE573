@@ -35,3 +35,8 @@ class ServiceRepository(db.Model):
         service = ServiceRepository.query.filter_by(provideruserid=provideruserid).first()
 
         return service
+     
+    def getbyid(id):
+        service = ServiceRepository.query.filter_by(id=id).first()
+
+        return service
