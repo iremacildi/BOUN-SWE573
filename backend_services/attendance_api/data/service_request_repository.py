@@ -22,9 +22,15 @@ class ServiceRequestRepository(db.Model):
         db.session.flush()
 
         return self
+
+    def update(self):
+        db.session.commit()
+        db.session.flush()
+
+        return self
     
     def getbyid(id):
-        servicerequest = ServiceRequestRepository.query.filter_by(id=id)
+        servicerequest = ServiceRequestRepository.query.filter_by(id=id).first()
 
         return servicerequest
     
@@ -33,7 +39,7 @@ class ServiceRequestRepository(db.Model):
 
         return servicerequests
 
-    def getbyserviceid(id):
-        servicerequests = ServiceRequestRepository.query.filter_by(id=id).first()
+    def getbyserviceid(serviceid):
+        servicerequests = ServiceRequestRepository.query.filter_by(serviceid=serviceid)
 
         return servicerequests

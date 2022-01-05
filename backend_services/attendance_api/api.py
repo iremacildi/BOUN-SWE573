@@ -41,3 +41,20 @@ def attend_event():
         return jsonify({'issuccessful':'true', 'message':'Great! Your event participation request has been received.'})
     except:
         return jsonify({'issuccessful':'false', 'message':'We couldn not get your participation request somehow. Sorry...'})
+
+@app.route('/answerrequest', methods=['POST'])
+def answer_request():
+    #authentication eklenecek 
+    requestanswer = json.loads(request.data)
+    servicerequestid = requestanswer["servicerequestid"]
+    isapproved = requestanswer["isapproved"]
+    
+    servicerequestrepo = ServiceRequestRepository.getbyid(int(servicerequestid))
+    try:
+        servicerequestrepo.isanswered = True
+        servicerequestrepo.isapproved = isapproved
+        updatedrequest = servicerequestrepo.update()
+        result = service_request_model.dump(updatedrequest)
+        return jsonify({'issuccessful':'true', 'message':'Great! Your event participation request has been received.'})
+    except:
+        return jsonify({'issuccessful':'false', 'message':'We couldn not get your participation request somehow. Sorry...'})
