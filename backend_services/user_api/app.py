@@ -26,12 +26,17 @@ app.config['SQLALCHEMY_DATABASE_URI'] = DB_URL
 app.config['SECRET_KEY'] = SECRET_KEY
 app.config['JWT_ACCESS_LIFESPAN'] = JWT_ACCESS_LIFESPAN
 app.config['JWT_REFRESH_LIFESPAN'] = JWT_REFRESH_LIFESPAN
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 cors.init_app(app, resources={r"/*": {"origins": "*"}})
+ma = Marshmallow(app)
 db.init_app(app)
 guard.init_app(app, UserRepository)
 
 bcrypt = Bcrypt(app)
-ma = Marshmallow(app)
+
 
 from api import *
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=80)
