@@ -10,14 +10,14 @@ def hello():
     resp.set_cookie('attendanceapi', 'attendance api is working.', httponly=True)
     return resp
 
-@app.route('/servicerequest', methods=['PUT'])
-def create_service():
+@app.route('/requestservice', methods=['PUT'])
+def request_service():
     #authentication eklenecek 
     servicerequest = json.loads(request.data)
     userid = servicerequest["userid"]
     serviceid = servicerequest["serviceid"]
 
-    servicerequestrepo = ServiceRequestRepository(serviceid, userid, 2, False, True)
+    servicerequestrepo = ServiceRequestRepository(serviceid, userid, False, False, True)
     try:
         newservicerequest = servicerequestrepo.add()
         result = service_request_model.dump(newservicerequest)
