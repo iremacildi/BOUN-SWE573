@@ -40,3 +40,11 @@ def login_user():
     resp.set_cookie('access_token', guard.encode_jwt_token(user), httponly=True)
     return resp
 
+@app.route('/userinfo', methods=['GET'])
+def user_info():
+    id = request.args.get('id', type=int)
+    userrepo = UserRepository.getbyid(id)
+    result = user_model.dump(userrepo)
+    
+    resp = make_response(jsonify(result), 200)
+    return resp

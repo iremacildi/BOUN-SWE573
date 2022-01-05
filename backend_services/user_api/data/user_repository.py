@@ -36,6 +36,11 @@ class UserRepository(db.Model):
 
         return user
 
+    def getbyid(id):
+        service = UserRepository.query.filter_by(id=id).first()
+
+        return service
+
     @property
     def identity(self):
 
