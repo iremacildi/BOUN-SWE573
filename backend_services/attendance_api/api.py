@@ -17,8 +17,10 @@ def create_service():
     userid = servicerequest["userid"]
     serviceid = servicerequest["serviceid"]
 
-    servicerequestrepo = ServiceRequestRepository(serviceid, userid, False, False, True)
-    newservicerequest = servicerequestrepo.add()
-    result = service_request_model.dump(newservicerequest)
-
-    return jsonify(result)
+    servicerequestrepo = ServiceRequestRepository(serviceid, userid, 2, False, True)
+    try:
+        newservicerequest = servicerequestrepo.add()
+        result = service_request_model.dump(newservicerequest)
+        return jsonify({'issuccessful':'true', 'message':'Great! Your service request has been sent.'})
+    except:
+        return jsonify({'issuccessful':'false', 'message':'We couldn not send your request somehow. Sorry...'})
