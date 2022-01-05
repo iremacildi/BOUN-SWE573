@@ -35,9 +35,13 @@ def create_service():
 def service_info():
     #authentication eklenecek 
     id = request.args.get('id')
-    servicerepo = ServiceRepository.getbyid(id)
-    userinfo = requests.get("http://localhost/userinfo?id=" + str(servicerepo.provideruserid)).json()
-    servicedetail = ServiceDetail(id, servicerepo.name, servicerepo.description, servicerepo.pictureurl, servicerepo.location, servicerepo.startdate,
-    servicerepo.duration, servicerepo.capacity, servicerepo.provideruserid, userinfo['username'], servicerepo.isactive)
+
+    service = ServiceRepository.getbyid(id)
+
+    userinfo = requests.get("http://localhost/userinfo?id=" + str(service.provideruserid)).json()
+
+    servicedetail = ServiceDetail(id, service.name, service.description, service.pictureurl, service.location, service.startdate,
+    service.duration, service.capacity, service.provideruserid, userinfo['username'], service.isactive)
+
     result = servicedetail_model.dump(servicedetail)
     return jsonify(result)
