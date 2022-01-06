@@ -40,3 +40,13 @@ class ServiceRepository(db.Model):
         service = ServiceRepository.query.filter_by(id=id).first()
 
         return service
+    
+    def searchinname(text):
+        services = ServiceRepository.query.filter(ServiceRepository.name.like('%' + str(text) + '%')).all()
+
+        return services
+    
+    def searchindescription(text):
+        services = ServiceRepository.query.filter(ServiceRepository.description.like('%' + str(text) + '%')).all()
+
+        return services

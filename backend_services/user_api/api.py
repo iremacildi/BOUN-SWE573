@@ -48,3 +48,12 @@ def user_info():
     
     resp = make_response(jsonify(result), 200)
     return resp
+
+@app.route('/multipleuserinfo', methods=['POST'])
+def multipleuser_info():
+    idlist = json.loads(request.data)
+
+    users = UserRepository.getbyidlist(idlist)
+    users = [user_model.dump(x) for x in users]
+    resp = make_response(jsonify(users), 200)
+    return resp

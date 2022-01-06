@@ -45,3 +45,20 @@ def service_info():
 
     result = servicedetail_model.dump(servicedetail)
     return jsonify(result)
+
+@app.route('/searchservice', methods=['GET'])
+def search_service():
+    #authentication eklenecek 
+    searchtext = request.args.get('searchtext')
+
+    services = ServiceRepository.searchinname(searchtext)
+    provideruserids = [s.provideruserid for s in services]
+
+    services = [servicedetail_model.dump(x) for x in services]
+
+    providersinfo = requests.post("http://localhost/multipleuserinfo", data = json.dumps(provideruserids)).json()
+
+    for service in services:
+        service['providerusername'] = [provider['username'] for provider in providersinfo if provider['id'] == service['provideruserid']][0]
+
+    return jsonify(services)

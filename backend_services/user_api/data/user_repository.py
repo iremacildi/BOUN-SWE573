@@ -37,9 +37,14 @@ class UserRepository(db.Model):
         return user
 
     def getbyid(id):
-        service = UserRepository.query.filter_by(id=id).first()
+        user = UserRepository.query.filter_by(id=id).first()
 
-        return service
+        return user
+    
+    def getbyidlist(idlist):
+        users = UserRepository.query.with_entities(UserRepository.id, UserRepository.username).filter(UserRepository.id.in_(idlist)).all()
+
+        return users       
 
     @property
     def identity(self):
