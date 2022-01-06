@@ -19,6 +19,7 @@ DB_URL = 'postgresql+psycopg2://{user}:{pw}@{url}/{db}'.format(user=POSTGRES_USE
 
 app.config['SQLALCHEMY_DATABASE_URI'] = DB_URL
 app.config['SECRET_KEY'] = SECRET_KEY
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 cors.init_app(app, resources={r"/*": {"origins": "*"}})
 db.init_app(app)
@@ -27,3 +28,6 @@ bcrypt = Bcrypt(app)
 ma = Marshmallow(app)
 
 from api import *
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=82)
