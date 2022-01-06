@@ -1,4 +1,6 @@
 from data.db_manager import db
+from sqlalchemy import and_
+import datetime
 
 class ServiceRepository(db.Model):
     __tablename__ = "service"
@@ -31,6 +33,11 @@ class ServiceRepository(db.Model):
 
         return self
     
+    def getall():
+        services = ServiceRepository.query.filter(and_(ServiceRepository.startdate>datetime.datetime.now(), ServiceRepository.isactive==True)).all()
+
+        return services
+
     def getbyprovideruserid(provideruserid):
         services = ServiceRepository.query.filter_by(provideruserid=provideruserid).all()
 
