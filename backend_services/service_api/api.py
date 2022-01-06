@@ -62,3 +62,20 @@ def search_service():
         service['providerusername'] = [provider['username'] for provider in providersinfo if provider['id'] == service['provideruserid']][0]
 
     return jsonify(services)
+
+@app.route('/getservices', methods=['GET'])
+def get_services():
+    #authentication eklenecek 
+    providerid = request.args.get('providerid')
+
+    services = ServiceRepository.getbyprovideruserid(providerid)
+
+    userinfo = requests.get("http://localhost/userinfo?id=" + str(providerid)).json()
+
+    services = [servicedetail_model.dump(x) for x in services]
+
+    for service in services:
+        service['providerusername'] = userinfo['username']
+        service['provideruserid'] = providerid
+
+    return jsonify(services)

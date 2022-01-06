@@ -31,10 +31,10 @@ class ServiceRepository(db.Model):
 
         return self
     
-    def get(provideruserid):
-        service = ServiceRepository.query.filter_by(provideruserid=provideruserid).first()
+    def getbyprovideruserid(provideruserid):
+        services = ServiceRepository.query.filter_by(provideruserid=provideruserid).all()
 
-        return service
+        return services
      
     def getbyid(id):
         service = ServiceRepository.query.filter_by(id=id).first()
