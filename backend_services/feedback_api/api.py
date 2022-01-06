@@ -21,7 +21,7 @@ def create_feedback():
     rate = feedback["rate"]
     
     try:
-        serviceinfo = requests.get("http://localhost/service?id=" + str(serviceid)).json()
+        serviceinfo = requests.get("http://localhost:81/service?id=" + str(serviceid)).json()
 
         feedbackrepo = FeedbackRepository(serviceid, comment, rate, userid, serviceinfo['provideruserid'], False)
         newfeedback = feedbackrepo.add()
