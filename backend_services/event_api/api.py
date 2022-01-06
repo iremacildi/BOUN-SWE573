@@ -47,3 +47,20 @@ def search_event():
         event['organizerusername'] = [organizer['username'] for organizer in organizersinfo if organizer['id'] == event['organizeruserid']][0]
 
     return jsonify(events)
+
+@app.route('/getevents', methods=['GET'])
+def get_events():
+    #authentication eklenecek 
+    organizerid = request.args.get('organizerid')
+
+    events = EventRepository.getbyorganizeruserid(organizerid)
+
+    userinfo = requests.get("http://localhost/userinfo?id=" + str(organizerid)).json()
+
+    events = [eventdetail_model.dump(x) for x in events]
+
+    for event in events:
+        event['organizerusername'] = userinfo['username']
+        event['organizeruserid'] = organizerid
+
+    return jsonify(events)

@@ -31,10 +31,10 @@ class EventRepository(db.Model):
 
         return self
     
-    def get(organizeruserid):
-        event = EventRepository.query.filter_by(organizeruserid=organizeruserid).first()
+    def getbyorganizeruserid(organizeruserid):
+        events = EventRepository.query.filter_by(organizeruserid=organizeruserid).all()
 
-        return event
+        return events
     
     def searchinname(text):
         events = EventRepository.query.filter(EventRepository.name.like('%' + str(text) + '%')).all()
