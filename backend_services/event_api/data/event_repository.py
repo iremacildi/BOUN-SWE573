@@ -35,3 +35,13 @@ class EventRepository(db.Model):
         event = EventRepository.query.filter_by(organizeruserid=organizeruserid).first()
 
         return event
+    
+    def searchinname(text):
+        events = EventRepository.query.filter(EventRepository.name.like('%' + str(text) + '%')).all()
+
+        return events
+    
+    def searchindescription(text):
+        events = EventRepository.query.filter(EventRepository.description.like('%' + str(text) + '%')).all()
+
+        return events
