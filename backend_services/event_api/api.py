@@ -41,7 +41,7 @@ def search_event():
 
     events = [eventdetail_model.dump(x) for x in events]
 
-    organizersinfo = requests.post("http://localhost/multipleuserinfo", data = json.dumps(organizeruserids)).json()
+    organizersinfo = requests.post("http://user-api/multipleuserinfo", data = json.dumps(organizeruserids)).json()
 
     for event in events:
         event['organizerusername'] = [organizer['username'] for organizer in organizersinfo if organizer['id'] == event['organizeruserid']][0]
@@ -55,7 +55,7 @@ def get_events():
 
     events = EventRepository.getbyorganizeruserid(organizerid)
 
-    userinfo = requests.get("http://localhost/userinfo?id=" + str(organizerid)).json()
+    userinfo = requests.get("http://user-api/userinfo?id=" + str(organizerid)).json()
 
     events = [eventdetail_model.dump(x) for x in events]
 
@@ -73,7 +73,7 @@ def get_allevents():
 
     events = [eventdetail_model.dump(x) for x in events]
 
-    organizersinfo = requests.post("http://localhost/multipleuserinfo", data = json.dumps(organizeruserids)).json()
+    organizersinfo = requests.post("http://user-api/multipleuserinfo", data = json.dumps(organizeruserids)).json()
 
     for event in events:
         event['organizerusername'] = [organizer['username'] for organizer in organizersinfo if organizer['id'] == event['organizeruserid']][0]
