@@ -32,6 +32,12 @@ class EventRepository(db.Model):
         db.session.flush()
 
         return self
+
+    def update(self):
+        db.session.commit()
+        db.session.flush()
+
+        return self
     
     def getall():
         events = EventRepository.query.filter(and_(EventRepository.startdate>datetime.datetime.now(), EventRepository.isactive==True)).all()
@@ -52,3 +58,8 @@ class EventRepository(db.Model):
         events = EventRepository.query.filter(EventRepository.description.like('%' + str(text) + '%')).all()
 
         return events
+
+    def getbyid(id):
+        service = EventRepository.query.filter_by(id=id).first()
+
+        return service

@@ -79,3 +79,19 @@ def get_allevents():
         event['organizerusername'] = [organizer['username'] for organizer in organizersinfo if organizer['id'] == event['organizeruserid']][0]
 
     return jsonify(events)
+
+@app.route('/updateeventstatus', methods=['POST'])
+def update_eventstatus():
+    #authentication eklenecek 
+    eventstatus = json.loads(request.data)
+    eventid = eventstatus["eventid"]
+    isactive = eventstatus["isactive"]
+    
+    eventrepo = EventRepository.getbyid(int(eventid))
+    try:
+        eventrepo.isactive = isactive
+        updatedevent = eventrepo.update()
+        result = event_model.dump(updatedevent)
+        return jsonify({'issuccessful':'true', 'message':'Status of your event has been changed.'})
+    except:
+        return jsonify({'issuccessful':'false', 'message':'We could not update the status. Can you please try again?'})
