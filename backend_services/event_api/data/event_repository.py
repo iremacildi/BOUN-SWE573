@@ -1,4 +1,6 @@
 from data.db_manager import db
+from sqlalchemy import and_
+import datetime
 
 class EventRepository(db.Model):
     __tablename__ = "event"
@@ -30,6 +32,11 @@ class EventRepository(db.Model):
         db.session.flush()
 
         return self
+    
+    def getall():
+        events = EventRepository.query.filter(and_(EventRepository.startdate>datetime.datetime.now(), EventRepository.isactive==True)).all()
+
+        return events
     
     def getbyorganizeruserid(organizeruserid):
         events = EventRepository.query.filter_by(organizeruserid=organizeruserid).all()

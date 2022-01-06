@@ -64,3 +64,18 @@ def get_events():
         event['organizeruserid'] = organizerid
 
     return jsonify(events)
+
+@app.route('/getallevents', methods=['GET'])
+def get_allevents():
+    #authentication eklenecek 
+    events = EventRepository.getall()
+    organizeruserids = [s.organizeruserid for s in events]
+
+    events = [eventdetail_model.dump(x) for x in events]
+
+    organizersinfo = requests.post("http://localhost/multipleuserinfo", data = json.dumps(organizeruserids)).json()
+
+    for event in events:
+        event['organizerusername'] = [organizer['username'] for organizer in organizersinfo if organizer['id'] == event['organizeruserid']][0]
+
+    return jsonify(events)
