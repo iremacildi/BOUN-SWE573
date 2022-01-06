@@ -33,6 +33,12 @@ class ServiceRepository(db.Model):
 
         return self
     
+    def update(self):
+        db.session.commit()
+        db.session.flush()
+
+        return self
+    
     def getall():
         services = ServiceRepository.query.filter(and_(ServiceRepository.startdate>datetime.datetime.now(), ServiceRepository.isactive==True)).all()
 

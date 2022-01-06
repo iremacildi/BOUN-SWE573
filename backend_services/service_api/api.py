@@ -94,3 +94,19 @@ def get_allservices():
         service['providerusername'] = [provider['username'] for provider in providersinfo if provider['id'] == service['provideruserid']][0]
 
     return jsonify(services)
+
+@app.route('/updateservicestatus', methods=['POST'])
+def update_servicestatus():
+    #authentication eklenecek 
+    servicestatus = json.loads(request.data)
+    serviceid = servicestatus["serviceid"]
+    isactive = servicestatus["isactive"]
+    
+    servicerepo = ServiceRepository.getbyid(int(serviceid))
+    try:
+        servicerepo.isactive = isactive
+        updatedservice = servicerepo.update()
+        result = service_model.dump(updatedservice)
+        return jsonify({'issuccessful':'true', 'message':'Status of your service has been changed.'})
+    except:
+        return jsonify({'issuccessful':'false', 'message':'We could not update the status. Can you please try again?'})
