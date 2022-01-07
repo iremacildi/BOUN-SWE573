@@ -22,7 +22,8 @@ const DetailService = (props) => {
     const handleservicerequest = (event) => {
         const body = {
             userid: props.userid,
-            serviceid: props.service.id
+            serviceid: props.service.id,
+            providerid: props.service.provideruserid
         }
 
         console.log(body)

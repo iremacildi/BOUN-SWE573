@@ -5,13 +5,15 @@ class ServiceRequestRepository(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     serviceid = db.Column(db.Integer)
     userid = db.Column(db.Integer)
+    providerid = db.Column(db.Integer)
     isapproved = db.Column(db.Boolean)
     isanswered = db.Column(db.Boolean)
     isactive = db.Column(db.Boolean)
 
-    def __init__(self, serviceid, userid, isapproved, isanswered, isactive):
+    def __init__(self, serviceid, userid, providerid, isapproved, isanswered, isactive):
         self.serviceid = serviceid
         self.userid = userid
+        self.providerid = providerid
         self.isapproved = isapproved
         self.isanswered = isanswered
         self.isactive = isactive
@@ -35,11 +37,16 @@ class ServiceRequestRepository(db.Model):
         return servicerequest
     
     def getbyuserid(userid):
-        servicerequests = ServiceRequestRepository.query.filter_by(userid=userid)
+        servicerequests = ServiceRequestRepository.query.filter_by(userid=userid).all()
 
         return servicerequests
 
     def getbyserviceid(serviceid):
-        servicerequests = ServiceRequestRepository.query.filter_by(serviceid=serviceid)
+        servicerequests = ServiceRequestRepository.query.filter_by(serviceid=serviceid).all()
+
+        return servicerequests
+    
+    def getbyproviderid(providerid):
+        servicerequests = ServiceRequestRepository.query.filter_by(providerid=providerid).all()
 
         return servicerequests

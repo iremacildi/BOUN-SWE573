@@ -18,8 +18,9 @@ def request_service():
     servicerequest = json.loads(request.data)
     userid = servicerequest["userid"]
     serviceid = servicerequest["serviceid"]
+    providerid = servicerequest["providerid"]
 
-    servicerequestrepo = ServiceRequestRepository(serviceid, userid, False, False, True)
+    servicerequestrepo = ServiceRequestRepository(serviceid, userid, providerid, False, False, True)
     try:
         newservicerequest = servicerequestrepo.add()
         result = service_request_model.dump(newservicerequest)
@@ -58,3 +59,14 @@ def answer_request():
         return jsonify({'issuccessful':'true', 'message':'Great! Your event participation request has been received.'})
     except:
         return jsonify({'issuccessful':'false', 'message':'We couldn not get your participation request somehow. Sorry...'})
+
+@app.route('/unansweredrequests', methods=['GER'])
+def unanswered_requests():
+    #authentication eklenecek 
+    provider = json.loads(request.data)
+    providerid = provider["providerid"]
+    
+    servicerequestrepo = ServiceRequestRepository.getbyproviderid(int(providerid))
+
+    result = service_request_model.dump(servicerequestrepo)
+    return jsonify(result)
