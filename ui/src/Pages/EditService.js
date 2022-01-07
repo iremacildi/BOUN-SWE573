@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
@@ -15,22 +15,43 @@ import GoogleMaps from '../Components/Geolocation';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import moment from 'moment';
+import { useLocation } from 'react-router-dom';
+import axios from 'axios';
+import Header from '../Components/Header';
+
+//name = service["servicename"]
+//description = service["description"]
+//pictureurl = service["pictureurl"]
+//location = service["location"]
+//startdate = service["startdate"]
+//duration = service["duration"]
+//capacity = service["capacity"]
+//provideruserid = service["provideruserid"]
+
+const userapi = axios.create({
+    baseURL: 'http://localhost',
+    withCredentials: true
+})
+
+userapi.interceptors.request.use(
+    function (config) {
+        config.headers.withCredentials = true;
+        return config
+    },
+    function (err) {
+        return Promise.reject(err)
+    }
+)
 
 export default function EditService() {
     const [date, setDate] = useState(new Date());
-    const [startTime, setStartTime] = useState(moment().hours(13).minute(0));
-    const [endTime, setEndTime] = useState(moment().hours(14).minute(0));
+    const [duration, setDuration] = useState(1);
+    const [loading, setLoading] = useState(true);
+    const [userInfo, setUserInfo] = useState(true);
+    const location = useLocation();
 
     const handleDateChange = (newDate) => {
         setDate(newDate);
-    };
-
-    const handleStartTimeChange = (newStartTime) => {
-        setStartTime(newStartTime);
-    };
-
-    const handleEndTimeChange = (newEndTime) => {
-        setEndTime(newEndTime);
     };
 
     const handleSubmit = (event) => {
@@ -42,114 +63,144 @@ export default function EditService() {
         });
     };
 
+    useEffect(() => {
+        getUserInfo();
+    }, []);
+
+    const getUserInfo = async () => {
+        try {
+            await userapi.get('/verify')
+                .then(
+                    (response) => {
+                        if (response.status == 200) {
+                            setUserInfo(response.data)
+                        }
+                        else {
+                            setUserInfo(null)
+                            console.log(response)
+                        }
+                    })
+                .catch(error => {
+                    setUserInfo(null)
+                    console.log(error)
+                });
+        } catch (error) {
+            setUserInfo(null)
+            console.log(error)
+        } finally {
+            setLoading(false)
+        }
+    };
+
+    if (loading)
+        return <div />
+
     return (
-        <Container component="main" maxWidth="xs">
-            <Box
-                sx={{
-                    marginTop: 8,
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                }}
-            >
-                <Avatar sx={{ m: 1, bgcolor: 'darkslategray' }}>
-                    <RoomServiceIcon />
-                </Avatar>
-                <Typography component="h1" variant="h5">
-                    Add / Edit Service
-                </Typography>
-                <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
-                    <Grid container spacing={2}>
-                        <Grid container item xs={12} spacing={1} direction="row" justifyContent="space-between" alignItems="center">
-                            <Grid item xs={10}>
-                                <TextField
-                                    name="serviceName"
-                                    required
-                                    fullWidth
-                                    id="serviceName"
-                                    label="Service Name"
-                                    autoFocus
-                                />
-                            </Grid>
-                            <Grid container item xs={2} justifyContent="flex-end" alignItems="center">
-                                <Tooltip title="Upload Cover Photo">
-                                    <IconButton style={{ backgroundColor: 'darkslategray' }}>
-                                        <UploadFileIcon style={{ color: 'white', fontSize: '30px' }} />
-                                    </IconButton>
-                                </Tooltip>
-                            </Grid>
-                        </Grid>
-                        <Grid container item xs={12} spacing={1} direction="row" justifyContent="space-between" alignItems="center">
-                            <Grid item xs={12}>
-                                <TextField
-                                    id="outlined-multiline-static"
-                                    label="Description"
-                                    multiline
-                                    fullWidth
-                                    required
-                                    rows={4}
-                                />
-                            </Grid>
-                        </Grid>
-                        <Grid item xs={12}>
-                            <GoogleMaps fullWidth />
-                        </Grid>
-                        <Grid item xs={12}>
-                            <LocalizationProvider dateAdapter={AdapterDateFns}>
-                                <DatePicker
-                                    label="Service Date"
-                                    inputFormat="dd/MM/yyyy"
-                                    value={date}
-                                    onChange={handleDateChange}
-                                    renderInput={(params) => <TextField {...params} fullWidth />}
-                                />
-                            </LocalizationProvider>
-                        </Grid>
-                        <Grid container item xs={12} spacing={1} direction="row" justifyContent="space-between" alignItems="center">
-                            <Grid item xs={6}>
-                                <LocalizationProvider dateAdapter={AdapterDateFns}>
-                                    <TimePicker
-                                        label="Start Time"
-                                        value={startTime}
-                                        onChange={handleStartTimeChange}
-                                        renderInput={(params) => <TextField {...params} />}
-                                    />
-                                </LocalizationProvider>
-                            </Grid>
-                            <Grid item xs={6}>
-                                <LocalizationProvider dateAdapter={AdapterDateFns}>
-                                    <TimePicker
-                                        label="End Time"
-                                        value={endTime}
-                                        onChange={handleEndTimeChange}
-                                        renderInput={(params) => <TextField {...params} />}
-                                    />
-                                </LocalizationProvider>
-                            </Grid>
-                        </Grid>
-                        <Grid item xs={12}>
-                            <TextField
-                                id="outlined-number"
-                                label="Attendance Capacity"
-                                fullWidth
-                                type="number"
-                                InputLabelProps={{
-                                    shrink: true,
-                                }}
-                            />
-                        </Grid>
-                    </Grid>
-                    <Button
-                        type="submit"
-                        fullWidth
-                        variant="contained"
-                        sx={{ mt: 3, mb: 2 }}
-                        style={{ backgroundColor: "darkslategray" }}
+        <Grid container spacing={2} columns={12} className="Home" direction="row" alignItems="center">
+            <Grid container item>
+                <Header userInfo={userInfo} />
+            </Grid>
+            <Grid item lg={12}>
+                <Container component="main" maxWidth="xs">
+                    <Box
+                        sx={{
+                            marginTop: 3,
+                            display: 'flex',
+                            flexDirection: 'column',
+                            alignItems: 'center',
+                        }}
                     >
-                        Save Service
-                    </Button>
-                </Box>
-            </Box>
-        </Container>
+                        <Avatar sx={{ m: 1, bgcolor: 'darkslategray' }}>
+                            <RoomServiceIcon />
+                        </Avatar>
+                        <Typography component="h1" variant="h5">
+                            {location.state.serviceId == 0 ? 'Add Service' : 'Edit Service'}
+                        </Typography>
+                        <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
+                            <Grid container spacing={2}>
+                                <Grid container item xs={12} spacing={1} direction="row" justifyContent="space-between" alignItems="center">
+                                    <Grid item xs={10}>
+                                        <TextField
+                                            name="serviceName"
+                                            required
+                                            fullWidth
+                                            id="serviceName"
+                                            label="Service Name"
+                                            autoFocus
+                                        />
+                                    </Grid>
+                                    <Grid container item xs={2} justifyContent="flex-end" alignItems="center">
+                                        <Tooltip title="Upload Cover Photo">
+                                            <IconButton style={{ backgroundColor: 'darkslategray' }}>
+                                                <UploadFileIcon style={{ color: 'white', fontSize: '30px' }} />
+                                            </IconButton>
+                                        </Tooltip>
+                                    </Grid>
+                                </Grid>
+                                <Grid container item xs={12} spacing={1} direction="row" justifyContent="space-between" alignItems="center">
+                                    <Grid item xs={12}>
+                                        <TextField
+                                            id="outlined-multiline-static"
+                                            label="Description"
+                                            multiline
+                                            fullWidth
+                                            required
+                                            rows={4}
+                                        />
+                                    </Grid>
+                                </Grid>
+                                {/* <Grid item xs={12}>
+                            <GoogleMaps fullWidth />
+                        </Grid> */}
+                                <Grid item xs={12}>
+                                    <LocalizationProvider dateAdapter={AdapterDateFns}>
+                                        <DatePicker
+                                            label="Service Date"
+                                            inputFormat="dd/MM/yyyy HH:mm"
+                                            value={date}
+                                            onChange={handleDateChange}
+                                            renderInput={(params) => <TextField {...params} fullWidth />}
+                                        />
+                                    </LocalizationProvider>
+                                </Grid>
+                                <Grid container item xs={12} spacing={1} direction="row" justifyContent="space-between" alignItems="center">
+                                    <Grid item xs={6}>
+                                        <TextField
+                                            id="outlined-number"
+                                            label="Duration (Hours)"
+                                            fullWidth
+                                            type="number"
+                                            InputLabelProps={{
+                                                shrink: true,
+                                            }}
+                                        />
+                                    </Grid>
+                                    <Grid item xs={6}>
+                                        <TextField
+                                            id="outlined-number"
+                                            label="Attendance Capacity"
+                                            fullWidth
+                                            type="number"
+                                            InputLabelProps={{
+                                                shrink: true,
+                                            }}
+                                        />
+                                    </Grid>
+                                </Grid>
+                            </Grid>
+                            <Button
+                                type="submit"
+                                fullWidth
+                                variant="contained"
+                                sx={{ mt: 3, mb: 2 }}
+                                style={{ backgroundColor: "darkslategray" }}
+                            >
+                                Save Service
+                            </Button>
+                        </Box>
+                    </Box>
+                </Container>
+            </Grid>
+        </Grid>
     );
 }

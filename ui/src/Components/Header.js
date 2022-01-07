@@ -30,7 +30,7 @@ const Header = (props) => {
     return (
         <Grid container spacing={1} columns={24} className="header" direction="row" alignItems="center">
             <Grid container item xs={6} sm={6} md={6} lg={6} xl={6} justifyContent="flex-start" alignItems="center">
-                <img src={logoImg} alt="Community Platform Logo" />
+                <a href="../"><img src={logoImg} alt="Community Platform Logo" /></a>
             </Grid>
             <Grid container item spacing={1} xs={12} sm={12} md={12} lg={12} xl={12} justifyContent="flex-end" alignItems="center">
                 <Grid item xs={22} sm={24} md={24} lg={14} xl={15}>
@@ -58,9 +58,6 @@ const Header = (props) => {
                     </Grid>
                     <Grid item>
                         <ButtonProfile style={{ zIndex: 100 }} />
-                        {/* <IconButton>
-                            <AccountBoxIcon style={{ color: 'white', fontSize: '30px' }} />
-                        </IconButton> */}
                     </Grid>
                 </Grid>
                 <Grid container item lg={24} justifyContent="flex-end" alignItems="center">

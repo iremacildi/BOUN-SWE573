@@ -37,6 +37,10 @@ const ButtonProfile = (props) => {
         setOpen(false);
     };
 
+    const handleCreateService = (event) => {
+        navigate("../createservice", { replace: true, state: { serviceId: 0 } });
+    };
+
     const handleProfile = (event) => {
         verifyUser()
 
@@ -50,7 +54,7 @@ const ButtonProfile = (props) => {
                     (response) => {
                         if (response.status == 200) {
                             console.log(response)
-                            navigate("../profile", { replace: true, state: response.data });
+                            navigate("../profile", { replace: true });
                         }
                         else {
                             console.log(response)
@@ -140,9 +144,10 @@ const ButtonProfile = (props) => {
                                     onKeyDown={handleListKeyDown}
                                 >
                                     <MenuItem onClick={handleProfile}>Profile</MenuItem>
-                                    <MenuItem onClick={handleClose}>Create Service</MenuItem>
+                                    <MenuItem onClick={handleCreateService}>Create Service</MenuItem>
                                     <MenuItem onClick={handleClose}>Create Event</MenuItem>
-                                    <MenuItem onClick={handleClose}>My Account</MenuItem>
+                                    <MenuItem onClick={handleClose}>My Services</MenuItem>
+                                    <MenuItem onClick={handleClose}>My Events</MenuItem>
                                     <MenuItem onClick={logoutUser}>Logout</MenuItem>
                                 </MenuList>
                             </ClickAwayListener>
