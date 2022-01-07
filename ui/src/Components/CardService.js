@@ -64,7 +64,7 @@ const CardService = (props) => {
                     PaperComponent={PaperComponent}
                     aria-labelledby="draggable-dialog-title"
                 >
-                    <DetailService service={props.service} />
+                    <DetailService service={props.service} userid={props.userid}/>
                 </Dialog>
             </Card>
         </div>

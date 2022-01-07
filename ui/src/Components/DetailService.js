@@ -1,11 +1,84 @@
+import * as React from 'react';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { Typography, Button } from '@mui/material';
+import { IconButton, Snackbar } from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
 import plants from '../img/plants.jpg'
 import moment from 'moment';
+import axios from 'axios';
+
+const attendanceapi = axios.create({
+    baseURL: 'http://localhost:84'
+})
 
 const DetailService = (props) => {
+    const [open, setOpen] = React.useState(false);
+    const [message, setMessage] = React.useState('');
+    const vertical = 'bottom';
+    const horizontal = 'center';
+
+    const handleservicerequest = (event) => {
+        const body = {
+            userid: props.userid,
+            serviceid: props.service.id
+        }
+
+        console.log(body)
+
+        createServiceRequest(body);
+    };
+
+    const createServiceRequest = (body) => {
+        try {
+            attendanceapi.put('/requestservice', body)
+                .then(
+                    (response) => {
+                        if (response.status == 200) {
+                            setMessage(response.data.message)
+                            setOpen(true)
+                            console.log(response)
+                            // navigate("../myservices", { replace: true }); myservices'a veya servicedetail'a yönlendirebilir
+                        }
+                        else {
+                            setMessage(response.data.message)
+                            setOpen(true)
+                            console.log(response)
+                        }
+                    })
+                .catch(error => {
+                    setMessage("So sorry, we couldn't create your service. Could you please try again.")
+                    setOpen(true)
+                    console.log(error)
+                });
+        } catch (error) {
+            setMessage("So sorry, we couldn't create your service. Could you please try again.")
+            setOpen(true)
+            console.log(error)
+        }
+    };
+
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+
+        setOpen(false);
+    };
+
+    const action = (
+        <React.Fragment>
+            <IconButton
+                size="small"
+                aria-label="close"
+                color="inherit"
+                onClick={handleClose}
+            >
+                <CloseIcon fontSize="small" />
+            </IconButton>
+        </React.Fragment>
+    );
 
     return (
         <div className="detail-service">
@@ -29,12 +102,21 @@ const DetailService = (props) => {
                         {props.service.description}
                     </Typography>
                 </DialogContentText>
+                <Snackbar
+                    open={open}
+                    autoHideDuration={6000}
+                    onClose={handleClose}
+                    message={message}
+                    action={action}
+                    anchorOrigin={{ vertical, horizontal }}
+                    style={{ marginBottom: '55px', width: '500px' }}
+                />
                 <Button
-                    type="submit"
                     fullWidth
                     variant="contained"
                     sx={{ mt: 3, mb: 2 }}
                     style={{ backgroundColor: "darkslategray" }}
+                    onClick={handleservicerequest}
                 >
                     Request Service
                 </Button>

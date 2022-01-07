@@ -47,7 +47,7 @@ function Home() {
       return (
         services.map((service) =>
           <Grid item>
-            <CardService service={service} />
+            <CardService service={service} userid={userInfo.id}/>
           </Grid>
         ));
     }
