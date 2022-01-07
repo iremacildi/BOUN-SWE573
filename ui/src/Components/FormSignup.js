@@ -127,7 +127,8 @@ export default function FormSignup() {
             email: data.get('email'),
             phonenumber: data.get('phonenumber'),
             profilepictureurl: 'url',
-            password: data.get('password')
+            password: data.get('password'),
+            about: data.get('about')
         }
 
         createUser(body);
@@ -170,6 +171,17 @@ export default function FormSignup() {
                                 label="Last Name"
                                 name="lastName"
                                 autoComplete="family-name"
+                            />
+                        </Grid>
+                        <Grid item xs={12} sm={6}>
+                            <TextField
+                                required
+                                fullWidth
+                                id="about"
+                                label="About"
+                                name="about"
+                                multiline
+                                rows={4}
                             />
                         </Grid>
                         <Grid item xs={12}>
