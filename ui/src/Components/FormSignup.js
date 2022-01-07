@@ -244,7 +244,6 @@ export default function FormSignup() {
                 message={message}
                 action={action}
             />
-            <Copyright sx={{ mt: 5 }} />
         </Container>
     );
 }

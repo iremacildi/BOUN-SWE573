@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, Fragment } from 'react'
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
@@ -7,30 +7,24 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import UploadFileIcon from '@mui/icons-material/UploadFile';
-import { IconButton, Tooltip } from '@mui/material';
+import { IconButton, Tooltip, Snackbar } from '@mui/material';
 import RoomServiceIcon from '@mui/icons-material/RoomService';
-import DatePicker from '@mui/lab/DatePicker';
-import TimePicker from '@mui/lab/TimePicker';
-import GoogleMaps from '../Components/Geolocation';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
-import moment from 'moment';
 import { useLocation } from 'react-router-dom';
 import axios from 'axios';
 import Header from '../Components/Header';
-
-//name = service["servicename"]
-//description = service["description"]
-//pictureurl = service["pictureurl"]
-//location = service["location"]
-//startdate = service["startdate"]
-//duration = service["duration"]
-//capacity = service["capacity"]
-//provideruserid = service["provideruserid"]
+import { DateTimePicker } from '@mui/lab';
+import CloseIcon from '@mui/icons-material/Close';
+import moment from 'moment';
 
 const userapi = axios.create({
     baseURL: 'http://localhost',
     withCredentials: true
+})
+
+const serviceapi = axios.create({
+    baseURL: 'http://localhost:81'
 })
 
 userapi.interceptors.request.use(
@@ -43,11 +37,22 @@ userapi.interceptors.request.use(
     }
 )
 
+serviceapi.interceptors.request.use(
+    function (config) {
+        config.headers.withCredentials = true;
+        return config
+    },
+    function (err) {
+        return Promise.reject(err)
+    }
+)
+
 export default function EditService() {
     const [date, setDate] = useState(new Date());
-    const [duration, setDuration] = useState(1);
     const [loading, setLoading] = useState(true);
     const [userInfo, setUserInfo] = useState(true);
+    const [open, setOpen] = useState(false);
+    const [message, setMessage] = useState('');
     const location = useLocation();
 
     const handleDateChange = (newDate) => {
@@ -57,11 +62,74 @@ export default function EditService() {
     const handleSubmit = (event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
-        console.log({
-            email: data.get('email'),
-            password: data.get('password'),
-        });
+
+        moment.locale('en');
+
+        const body = {
+            servicename: data.get('serviceName'),
+            description: data.get('description'),
+            startdate:  moment(date).format('MM-DD-yyyy HH:mm'),
+            duration: data.get('duration'),
+            capacity: data.get('capacity'),
+            provideruserid: userInfo.id,
+            pictureurl: 'pictureurl',
+            location: 'location'
+        }
+
+        console.log(body)
+
+        createService(body);
     };
+
+    const createService = (body) => {
+        try {
+            serviceapi.put('/create', body)
+                .then(
+                    (response) => {
+                        if (response.status == 200) {
+                            setMessage("Your service has been created. Great!")
+                            setOpen(true)
+                            console.log(response)
+                            // navigate("../myservices", { replace: true }); myservices'a veya servicedetail'a yönlendirebilir
+                        }
+                        else {
+                            setMessage("So sorry, we couldn't create your service. Could you please try again.")
+                            setOpen(true)
+                            console.log(response)
+                        }
+                    })
+                .catch(error => {
+                    setMessage("So sorry, we couldn't create your service. Could you please try again.")
+                    setOpen(true)
+                    console.log(error)
+                });
+        } catch (error) {
+            setMessage("So sorry, we couldn't create your service. Could you please try again.")
+            setOpen(true)
+            console.log(error)
+        }
+    };
+
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+
+        setOpen(false);
+    };
+
+    const action = (
+        <Fragment>
+            <IconButton
+                size="small"
+                aria-label="close"
+                color="inherit"
+                onClick={handleClose}
+            >
+                <CloseIcon fontSize="small" />
+            </IconButton>
+        </Fragment>
+    );
 
     useEffect(() => {
         getUserInfo();
@@ -140,8 +208,9 @@ export default function EditService() {
                                 <Grid container item xs={12} spacing={1} direction="row" justifyContent="space-between" alignItems="center">
                                     <Grid item xs={12}>
                                         <TextField
-                                            id="outlined-multiline-static"
+                                            id="description"
                                             label="Description"
+                                            name="description"
                                             multiline
                                             fullWidth
                                             required
@@ -149,12 +218,11 @@ export default function EditService() {
                                         />
                                     </Grid>
                                 </Grid>
-                                {/* <Grid item xs={12}>
-                            <GoogleMaps fullWidth />
-                        </Grid> */}
                                 <Grid item xs={12}>
                                     <LocalizationProvider dateAdapter={AdapterDateFns}>
-                                        <DatePicker
+                                        <DateTimePicker
+                                            name="startdate"
+                                            id="startdate"
                                             label="Service Date"
                                             inputFormat="dd/MM/yyyy HH:mm"
                                             value={date}
@@ -166,7 +234,8 @@ export default function EditService() {
                                 <Grid container item xs={12} spacing={1} direction="row" justifyContent="space-between" alignItems="center">
                                     <Grid item xs={6}>
                                         <TextField
-                                            id="outlined-number"
+                                            id="duration"
+                                            name="duration"
                                             label="Duration (Hours)"
                                             fullWidth
                                             type="number"
@@ -177,7 +246,8 @@ export default function EditService() {
                                     </Grid>
                                     <Grid item xs={6}>
                                         <TextField
-                                            id="outlined-number"
+                                            id="capacity"
+                                            name="capacity"
                                             label="Attendance Capacity"
                                             fullWidth
                                             type="number"
@@ -199,6 +269,13 @@ export default function EditService() {
                             </Button>
                         </Box>
                     </Box>
+                    <Snackbar
+                        open={open}
+                        autoHideDuration={6000}
+                        onClose={handleClose}
+                        message={message}
+                        action={action}
+                    />
                 </Container>
             </Grid>
         </Grid>
