@@ -41,6 +41,10 @@ const ButtonProfile = (props) => {
         navigate("../createservice", { replace: true, state: { serviceId: 0 } });
     };
 
+    const handleEventService = (event) => {
+        navigate("../createevent", { replace: true, state: { eventId: 0 } });
+    };
+
     const handleProfile = (event) => {
         verifyUser()
 
@@ -144,10 +148,10 @@ const ButtonProfile = (props) => {
                                     onKeyDown={handleListKeyDown}
                                 >
                                     <MenuItem onClick={handleProfile}>Profile</MenuItem>
-                                    <MenuItem onClick={handleCreateService}>Create Service</MenuItem>
-                                    <MenuItem onClick={handleClose}>Create Event</MenuItem>
                                     <MenuItem onClick={handleClose}>My Services</MenuItem>
                                     <MenuItem onClick={handleClose}>My Events</MenuItem>
+                                    <MenuItem onClick={handleCreateService}>Create Service</MenuItem>
+                                    <MenuItem onClick={handleEventService}>Create Event</MenuItem>
                                     <MenuItem onClick={logoutUser}>Logout</MenuItem>
                                 </MenuList>
                             </ClickAwayListener>

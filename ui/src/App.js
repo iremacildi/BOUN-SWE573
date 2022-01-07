@@ -6,6 +6,7 @@ import Home from './Pages/Home';
 import Login from './Pages/Login';
 import SignUp from './Pages/Signup';
 import Profile from './Pages/Profile';
+import EditEvent from './Pages/EditEvent';
 
 function App() {
 
@@ -15,8 +16,8 @@ function App() {
         <Route exact path="/" element={<Home />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/editservice" element={<EditService />} />
         <Route path="/createservice" element={<EditService />} />
+        <Route path="/createevent" element={<EditEvent />} />
         <Route path="/profile" element={<Profile />} />
       </Routes>
     </>

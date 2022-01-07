@@ -8,7 +8,6 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import UploadFileIcon from '@mui/icons-material/UploadFile';
 import { IconButton, Tooltip, Snackbar } from '@mui/material';
-import RoomServiceIcon from '@mui/icons-material/RoomService';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import { useLocation } from 'react-router-dom';
@@ -17,14 +16,15 @@ import Header from '../Components/Header';
 import { DateTimePicker } from '@mui/lab';
 import CloseIcon from '@mui/icons-material/Close';
 import moment from 'moment';
+import EventIcon from '@mui/icons-material/Event';
 
 const userapi = axios.create({
     baseURL: 'http://localhost',
     withCredentials: true
 })
 
-const serviceapi = axios.create({
-    baseURL: 'http://localhost:81'
+const eventapi = axios.create({
+    baseURL: 'http://localhost:82'
 })
 
 userapi.interceptors.request.use(
@@ -37,7 +37,7 @@ userapi.interceptors.request.use(
     }
 )
 
-export default function EditService() {
+export default function EditEvent() {
     const [date, setDate] = useState(new Date());
     const [loading, setLoading] = useState(true);
     const [userInfo, setUserInfo] = useState(true);
@@ -56,45 +56,45 @@ export default function EditService() {
         moment.locale('en');
 
         const body = {
-            servicename: data.get('serviceName'),
+            eventname: data.get('eventName'),
             description: data.get('description'),
             startdate:  moment(date).format('MM-DD-yyyy HH:mm'),
             duration: data.get('duration'),
             capacity: data.get('capacity'),
-            provideruserid: userInfo.id,
+            organizeruserid: userInfo.id,
             pictureurl: 'pictureurl',
             location: 'location'
         }
 
         console.log(body)
 
-        createService(body);
+        createEvent(body);
     };
 
-    const createService = (body) => {
+    const createEvent = (body) => {
         try {
-            serviceapi.put('/create', body)
+            eventapi.put('/create', body)
                 .then(
                     (response) => {
                         if (response.status == 200) {
-                            setMessage("Your service has been created. Great!")
+                            setMessage("Your event has been created. Great!")
                             setOpen(true)
                             console.log(response)
-                            // navigate("../myservices", { replace: true }); myservices'a veya servicedetail'a yönlendirebilir
+                            // navigate("../myevents", { replace: true }); myevents'e veya eventdetail'a yönlendirebilir
                         }
                         else {
-                            setMessage("So sorry, we couldn't create your service. Could you please try again.")
+                            setMessage("So sorry, we couldn't create your event. Could you please try again.")
                             setOpen(true)
                             console.log(response)
                         }
                     })
                 .catch(error => {
-                    setMessage("So sorry, we couldn't create your service. Could you please try again.")
+                    setMessage("So sorry, we couldn't create your event. Could you please try again.")
                     setOpen(true)
                     console.log(error)
                 });
         } catch (error) {
-            setMessage("So sorry, we couldn't create your service. Could you please try again.")
+            setMessage("So sorry, we couldn't create your event. Could you please try again.")
             setOpen(true)
             console.log(error)
         }
@@ -169,21 +169,21 @@ export default function EditService() {
                         }}
                     >
                         <Avatar sx={{ m: 1, bgcolor: 'darkslategray' }}>
-                            <RoomServiceIcon />
+                            <EventIcon />
                         </Avatar>
                         <Typography component="h1" variant="h5">
-                            {location.state.serviceId == 0 ? 'Add Service' : 'Edit Service'}
+                            {location.state.eventId == 0 ? 'Add Event' : 'Edit Event'}
                         </Typography>
                         <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
                             <Grid container spacing={2}>
                                 <Grid container item xs={12} spacing={1} direction="row" justifyContent="space-between" alignItems="center">
                                     <Grid item xs={10}>
                                         <TextField
-                                            name="serviceName"
+                                            name="eventName"
                                             required
                                             fullWidth
-                                            id="serviceName"
-                                            label="Service Name"
+                                            id="eventName"
+                                            label="Event Name"
                                             autoFocus
                                         />
                                     </Grid>
@@ -213,7 +213,7 @@ export default function EditService() {
                                         <DateTimePicker
                                             name="startdate"
                                             id="startdate"
-                                            label="Service Date"
+                                            label="Event Date"
                                             inputFormat="dd/MM/yyyy HH:mm"
                                             value={date}
                                             onChange={handleDateChange}
@@ -255,7 +255,7 @@ export default function EditService() {
                                 sx={{ mt: 3, mb: 2 }}
                                 style={{ backgroundColor: "darkslategray" }}
                             >
-                                Save Service
+                                Save Event
                             </Button>
                         </Box>
                     </Box>
