@@ -1,32 +1,43 @@
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import { Typography } from '@mui/material';
+import { Typography, Button } from '@mui/material';
 import plants from '../img/plants.jpg'
+import moment from 'moment';
 
 const DetailService = (props) => {
 
     return (
         <div className="detail-service">
             <DialogTitle style={{ cursor: 'move' }} id="draggable-dialog-title">
-                Houseplant Care Tips Sharing
+                {props.service.name}
                 <Typography variant="body2" color="text.secondary">
-                    by Irem ACILDI DEMIR
+                    by {props.service.providerusername}
+                    {/* add profile link on providerusername */}
                 </Typography>
             </DialogTitle>
             <DialogContent>
                 <DialogContentText>
                     <img src={plants} alt="Service Cover Photo" style={{ width: '530px' }} /><br /><br />
                     <Typography variant="body2" color="text.secondary">
-                        Location: Kadikoy, Istanbul<br />
-                        Date: April 28, 2022<br />
-                        Duration: 2 hours<br />
-                        Capacity: 4 people
+                        Location: Istanbul<br />
+                        Date: {moment(props.service.startdate).format('DD/MM/yyyy HH:mm')}<br />
+                        Duration: {props.service.duration} hours<br />
+                        Capacity: {props.service.capacity} people
                     </Typography><br />
                     <Typography variant="body2" color="text.secondary">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse feugiat turpis sem, ut egestas neque vehicula ut. Phasellus id iaculis ante. Duis porttitor, justo eget elementum ultricies, nisi dui pellentesque justo, non interdum leo tortor quis risus. Donec semper magna ut iaculis placerat. Phasellus dapibus turpis ac sapien suscipit condimentum. Phasellus eu elit et lacus faucibus gravida. Morbi ligula quam, lobortis ac molestie ut, ultrices vitae ex. Aenean vitae ligula quam. Fusce eu finibus lectus, sed accumsan nisl. Nam malesuada auctor ex non interdum. Quisque nisl purus, tempor id commodo eu, pharetra in ex. Curabitur nulla nibh, tincidunt id ante nec, maximus efficitur turpis.
+                        {props.service.description}
                     </Typography>
                 </DialogContentText>
+                <Button
+                    type="submit"
+                    fullWidth
+                    variant="contained"
+                    sx={{ mt: 3, mb: 2 }}
+                    style={{ backgroundColor: "darkslategray" }}
+                >
+                    Request Service
+                </Button>
             </DialogContent>
         </div>
     )

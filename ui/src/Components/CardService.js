@@ -1,8 +1,6 @@
 import { useState } from 'react'
 import { Card, CardHeader, Avatar, IconButton, CardMedia, CardContent, Typography, CardActions } from "@mui/material";
-import FavoriteIcon from '@mui/icons-material/Favorite';
 import InfoIcon from '@mui/icons-material/Info';
-import { red } from '@mui/material/colors';
 import plants from '../img/plants.jpg'
 import DetailService from './DetailService';
 import Dialog from '@mui/material/Dialog';
@@ -52,8 +50,7 @@ const CardService = (props) => {
                 />
                 <CardContent>
                     <Typography variant="body2" color="text.secondary">
-                        Location: Istanbul<br /><br />
-                        {props.service.description}
+                        Location: Istanbul
                     </Typography>
                 </CardContent>
                 <CardActions disableSpacing>
@@ -67,7 +64,7 @@ const CardService = (props) => {
                     PaperComponent={PaperComponent}
                     aria-labelledby="draggable-dialog-title"
                 >
-                    <DetailService />
+                    <DetailService service={props.service} />
                 </Dialog>
             </Card>
         </div>
