@@ -8,16 +8,17 @@ import DetailService from './DetailService';
 import Dialog from '@mui/material/Dialog';
 import Paper from '@mui/material/Paper';
 import Draggable from 'react-draggable';
+import moment from 'moment';
 
 function PaperComponent(props) {
-  return (
-    <Draggable
-      handle="#draggable-dialog-title"
-      cancel={'[class*="MuiDialogContent-root"]'}
-    >
-      <Paper {...props} />
-    </Draggable>
-  );
+    return (
+        <Draggable
+            handle="#draggable-dialog-title"
+            cancel={'[class*="MuiDialogContent-root"]'}
+        >
+            <Paper {...props} />
+        </Draggable>
+    );
 }
 
 const CardService = (props) => {
@@ -32,33 +33,30 @@ const CardService = (props) => {
     };
 
     return (
-        <div className="card-service" style={{maxWidth:'350px'}}>
+        <div className="card-service" style={{ maxWidth: '350px' }}>
             <Card className="card">
                 <CardHeader
                     avatar={
-                        <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-                            IA
+                        <Avatar sx={{ bgcolor: 'darkslategray' }}>
+                            {props.service.providerusername.substr(0, 1)}
                         </Avatar>
                     }
-                    title="Houseplant Care Tips Sharing"
-                    subheader="April 28, 2022 02:00 PM - 2 hours"
+                    title={props.service.name}
+                    subheader={moment(props.service.startdate).format('DD/MM/yyyy HH:mm') + ' - ' + props.service.duration + ' hours'}
                 />
                 <CardMedia
                     component="img"
                     height="194"
                     image={plants}
-                    alt="Paella dish"
+                    alt="service-image"
                 />
                 <CardContent>
                     <Typography variant="body2" color="text.secondary">
-                        Location: Kadikoy, Istanbul<br/><br/>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse feugiat turpis sem, ut egestas neque vehicula ut.
+                        Location: Istanbul<br /><br />
+                        {props.service.description}
                     </Typography>
                 </CardContent>
                 <CardActions disableSpacing>
-                    <IconButton aria-label="add to favorites">
-                        <FavoriteIcon />
-                    </IconButton>
                     <IconButton onClick={handleClickOpen}>
                         <InfoIcon />
                     </IconButton>

@@ -11,6 +11,14 @@ const userapi = axios.create({
   withCredentials: true
 })
 
+const serviceapi = axios.create({
+  baseURL: 'http://localhost:81'
+})
+
+const eventapi = axios.create({
+  baseURL: 'http://localhost:82'
+})
+
 userapi.interceptors.request.use(
   function (config) {
     config.headers.withCredentials = true;
@@ -23,10 +31,12 @@ userapi.interceptors.request.use(
 
 function Home() {
   const [loading, setLoading] = useState(true);
-  const [userInfo, setUserInfo] = useState(true);
+  const [userInfo, setUserInfo] = useState(null);
+  const [services, setServices] = useState(null);
 
   useEffect(() => {
     getUserInfo();
+    getAllServices();
   }, []);
 
   const numbers = [1, 2, 3, 4, 5];
@@ -36,11 +46,17 @@ function Home() {
     </Grid>
   );
 
-  const serviceCards = numbers.map((number) =>
-    <Grid item>
-      <CardService />
-    </Grid>
-  );
+  const serviceCards = () => {
+    if (services != null) {
+      var serviceCount = services.length
+      return (
+        services.map((service) =>
+          <Grid item>
+            <CardService service={service} />
+          </Grid>
+        ));
+    }
+  }
 
   const getUserInfo = async () => {
     try {
@@ -67,6 +83,29 @@ function Home() {
     }
   };
 
+  const getAllServices = () => {
+    try {
+      serviceapi.get('/getallservices')
+        .then(
+          (response) => {
+            if (response.status == 200) {
+              setServices(response.data)
+            }
+            else {
+              setServices(null)
+              console.log(response)
+            }
+          })
+        .catch(error => {
+          setServices(null)
+          console.log(error)
+        });
+    } catch (error) {
+      setServices(null)
+      console.log(error)
+    }
+  };
+
   if (loading)
     return <div />
 
@@ -87,7 +126,7 @@ function Home() {
             </AccordionSummary>
             <AccordionDetails>
               <Grid container item spacing={2} lg={16} justifyContent="center">
-                {serviceCards}
+                {serviceCards()}
               </Grid>
             </AccordionDetails>
           </Accordion>
