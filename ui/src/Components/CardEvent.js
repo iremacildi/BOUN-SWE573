@@ -8,6 +8,7 @@ import DetailEvent from './DetailEvent';
 import Dialog from '@mui/material/Dialog';
 import Paper from '@mui/material/Paper';
 import Draggable from 'react-draggable';
+import moment from 'moment';
 
 function PaperComponent(props) {
   return (
@@ -36,29 +37,26 @@ const CardEvent = (props) => {
             <Card className="card">
                 <CardHeader
                     avatar={
-                        <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-                            IA
+                        <Avatar sx={{ bgcolor: 'darkslategray' }} aria-label="recipe">
+                            {props.event.organizerusername.substr(0, 1)}
                         </Avatar>
                     }
-                    title="Let's Meet at Picnic!"
-                    subheader="April 28, 2022 02:00 PM"
+                    title={props.event.name}
+                    subheader={moment(props.event.startdate).format('DD/MM/yyyy HH:mm') + ' - ' + props.event.duration + ' hours'}
                 />
                 <CardMedia
                     component="img"
                     height="194"
                     image={picnic}
-                    alt="Paella dish"
+                    alt="event-image"
                 />
                 <CardContent>
                     <Typography variant="body2" color="text.secondary">
-                        Location: Kadikoy, Istanbul<br/><br/>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse feugiat turpis sem, ut egestas neque vehicula ut.
+                        Location: Istanbul<br/><br/>
+                        {props.event.description}
                     </Typography>
                 </CardContent>
                 <CardActions disableSpacing>
-                    <IconButton aria-label="add to favorites">
-                        <FavoriteIcon />
-                    </IconButton>
                     <IconButton onClick={handleClickOpen}>
                         <InfoIcon />
                     </IconButton>

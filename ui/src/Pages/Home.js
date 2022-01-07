@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from 'react'
+import { useEffect, useState } from 'react'
 import { Accordion, AccordionDetails, AccordionSummary, Grid, Typography } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Header from '../Components/Header';
@@ -33,26 +33,33 @@ function Home() {
   const [loading, setLoading] = useState(true);
   const [userInfo, setUserInfo] = useState(null);
   const [services, setServices] = useState(null);
+  const [events, setEvents] = useState(null);
 
   useEffect(() => {
     getUserInfo();
     getAllServices();
+    getAllEvents();
   }, []);
-
-  const numbers = [1, 2, 3, 4, 5];
-  const eventCards = numbers.map((number) =>
-    <Grid item>
-      <CardEvent />
-    </Grid>
-  );
-
+  
   const serviceCards = () => {
     if (services != null) {
-      var serviceCount = services.length
+
       return (
         services.map((service) =>
           <Grid item>
             <CardService service={service} />
+          </Grid>
+        ));
+    }
+  }
+
+  const eventCards = () => {
+    if (events != null) {
+
+      return (
+        events.map((event) =>
+          <Grid item>
+            <CardEvent event={event} />
           </Grid>
         ));
     }
@@ -106,6 +113,29 @@ function Home() {
     }
   };
 
+  const getAllEvents = () => {
+    try {
+      eventapi.get('/getallevents')
+        .then(
+          (response) => {
+            if (response.status == 200) {
+              setEvents(response.data)
+            }
+            else {
+              setEvents(null)
+              console.log(response)
+            }
+          })
+        .catch(error => {
+          setEvents(null)
+          console.log(error)
+        });
+    } catch (error) {
+      setEvents(null)
+      console.log(error)
+    }
+  };
+
   if (loading)
     return <div />
 
@@ -144,7 +174,7 @@ function Home() {
             </AccordionSummary>
             <AccordionDetails>
               <Grid container item spacing={2} lg={16} justifyContent="center">
-                {eventCards}
+                {eventCards()}
               </Grid>
             </AccordionDetails>
           </Accordion>
