@@ -2,13 +2,28 @@ from flask import request, jsonify, make_response
 from app import app, guard
 from data.user_repository import UserRepository
 from model.user_model import user_model
+from flask_praetorian import auth_required, current_user
 import json
+
+@app.after_request
+def middleware_for_response(response):
+    response.headers.add('Access-Control-Allow-Credentials', 'true')
+    return response
 
 @app.route("/")
 def hello():
     resp = make_response(f'Hi', 200)
     resp.set_cookie('somecookiename', 'I am cookie', httponly=True)
     return resp
+
+@app.route("/verify")
+@auth_required
+def verify():
+    try:
+        currentuser = user_model.dump(current_user())
+        return make_response(jsonify(currentuser), 200)
+    except:
+        return make_response(jsonify({'message': 'Error occured during verification process.'}), 401)
 
 @app.route('/create', methods=['PUT'])
 def create_user():

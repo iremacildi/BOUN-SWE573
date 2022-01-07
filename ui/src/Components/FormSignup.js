@@ -13,6 +13,8 @@ import Copyright from './Copyright';
 import { IMaskInput } from 'react-imask';
 import { PropTypes } from 'prop-types';
 import { IconButton, Snackbar } from '@mui/material';
+import axios from 'axios';
+import { useNavigate } from "react-router-dom";
 
 const TextMaskCustom = React.forwardRef(function TextMaskCustom(props, ref) {
     const { onChange, ...other } = props;
@@ -35,30 +37,55 @@ TextMaskCustom.propTypes = {
     onChange: PropTypes.func.isRequired,
 };
 
+const userapi = axios.create({
+    baseURL: 'http://localhost',
+    withCredentials: true
+})
+
+userapi.interceptors.request.use(
+    function (config) {
+        config.headers.withCredentials = true;
+        return config
+    },
+    function (err) {
+        return Promise.reject(err)
+    }
+)
+
 export default function FormSignup() {
+    let navigate = useNavigate();
+
     const [values, setValues] = React.useState({ phonenumber: '' });
     const [open, setOpen] = React.useState(false);
     const [message, setMessage] = React.useState('');
 
     const createUser = (body) => {
-        fetch('http://localhost:5000/create', {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(body)
-        })
-            .then(
-                (result) => {
-                    setMessage("You signed up successfully! Hooray!")
-                    setOpen(true)
-                },
-                (error) => {
+        try {
+            userapi.put('/create', body)
+                .then(
+                    (response) => {
+                        if (response.status == 200) {
+                            setMessage("You signed up successfully! Hooray!")
+                            setOpen(true)
+                            console.log(response)
+                            navigate("../login", { replace: true });
+                        }
+                        else {
+                            setMessage("So sorry, we couldn't create your account :( Please try again.")
+                            setOpen(true)
+                            console.log(response)
+                        }
+                    })
+                .catch(error => {
                     setMessage("So sorry, we couldn't create your account :( Please try again.")
                     setOpen(true)
-                }
-            )
-            .catch(error => console.log(error))
+                    console.log(error)
+                });
+        } catch (error) {
+            setMessage("So sorry, we couldn't create your account :( Please try again.")
+            setOpen(true)
+            console.log(error)
+        }
     };
 
     const handleClose = (event, reason) => {
@@ -94,7 +121,7 @@ export default function FormSignup() {
         const data = new FormData(event.currentTarget);
 
         const body = {
-            username: data.get('firstName'),
+            name: data.get('firstName'),
             surname: data.get('lastName'),
             username: data.get('username'),
             email: data.get('email'),

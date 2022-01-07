@@ -13,8 +13,27 @@ import Typography from '@mui/material/Typography';
 import Copyright from './Copyright';
 import { IconButton, Snackbar } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
+import axios from 'axios';
+import { useNavigate } from "react-router-dom";
+
+const userapi = axios.create({
+    baseURL: 'http://localhost',
+    withCredentials: true
+})
+
+userapi.interceptors.request.use(
+    function (config) {
+        config.headers.withCredentials = true;
+        return config
+    },
+    function (err) {
+        return Promise.reject(err)
+    }
+)
 
 export default function FormLogin() {
+    let navigate = useNavigate();
+
     const [open, setOpen] = React.useState(false);
     const [message, setMessage] = React.useState('');
 
@@ -31,24 +50,33 @@ export default function FormLogin() {
     };
 
     const loginUser = (body) => {
-        fetch('/login', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(body)
-        })
-            .then(
-                (result) => {
-                    setMessage("You signed up successfully! Hooray!")
+
+        try {
+            userapi.post('/login', body)
+                .then(
+                    (response) => {
+                        if (response.status == 200) {
+                            setMessage("Welcome!")
+                            setOpen(true)
+                            console.log(response)
+                            navigate("../", { replace: true });
+                        }
+                        else {
+                            setMessage("Something happened. Could you please try again?")
+                            setOpen(true)
+                            console.log(response)
+                        }
+                    })
+                .catch(error => {
+                    setMessage("Something happened. Could you please try again?")
                     setOpen(true)
-                },
-                (error) => {
-                    setMessage("So sorry, we couldn't create your account :( Please try again.")
-                    setOpen(true)
-                }
-            )
-            .catch(error => console.log(error))
+                    console.log(error)
+                });
+        } catch (error) {
+            setMessage("Something happened. Could you please try again?")
+            setOpen(true)
+            console.log(error)
+        }
     };
 
     const handleClose = (event, reason) => {

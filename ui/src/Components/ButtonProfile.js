@@ -1,8 +1,27 @@
 import { useState, useEffect, useRef } from 'react'
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import { ClickAwayListener, Grow, IconButton, MenuItem, MenuList, Paper, Popper } from "@mui/material";
+import axios from 'axios';
+import { useNavigate } from "react-router-dom";
+
+const userapi = axios.create({
+    baseURL: 'http://localhost',
+    withCredentials: true
+})
+
+userapi.interceptors.request.use(
+    function (config) {
+        config.headers.withCredentials = true;
+        return config
+    },
+    function (err) {
+        return Promise.reject(err)
+    }
+)
 
 const ButtonProfile = (props) => {
+    let navigate = useNavigate();
+
     const [open, setOpen] = useState(false);
     const anchorRef = useRef(null);
 
@@ -16,6 +35,33 @@ const ButtonProfile = (props) => {
         }
 
         setOpen(false);
+    };
+
+    const handleProfile = (event) => {
+        verifyUser()
+
+        setOpen(false);
+    };
+
+    const verifyUser = () => {
+        try {
+            userapi.get('/verify')
+                .then(
+                    (response) => {
+                        if (response.status == 200) {
+                            console.log(response)
+                            navigate("../profile", { replace: true, state: response.data });
+                        }
+                        else {
+                            console.log(response)
+                        }
+                    })
+                .catch(error => {
+                    console.log(error)
+                });
+        } catch (error) {
+            console.log(error)
+        }
     };
 
     function handleListKeyDown(event) {
@@ -48,7 +94,7 @@ const ButtonProfile = (props) => {
             >
                 <AccountBoxIcon style={{ color: 'white', fontSize: '30px' }} />
             </IconButton>
-            <Popper style={{zIndex: 100}}
+            <Popper style={{ zIndex: 100 }}
                 open={open}
                 anchorEl={anchorRef.current}
                 role={undefined}
@@ -72,7 +118,7 @@ const ButtonProfile = (props) => {
                                     aria-labelledby="composition-button"
                                     onKeyDown={handleListKeyDown}
                                 >
-                                    <MenuItem onClick={handleClose}>Profile</MenuItem>
+                                    <MenuItem onClick={handleProfile}>Profile</MenuItem>
                                     <MenuItem onClick={handleClose}>Create Service</MenuItem>
                                     <MenuItem onClick={handleClose}>Create Event</MenuItem>
                                     <MenuItem onClick={handleClose}>My Account</MenuItem>
