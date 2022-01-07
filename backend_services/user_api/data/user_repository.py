@@ -6,6 +6,7 @@ class UserRepository(db.Model):
     name = db.Column(db.String(120))
     surname = db.Column(db.String(120))
     username = db.Column(db.String(120), unique=True)
+    about = db.Column(db.String(300))
     email = db.Column(db.String(120), unique=True)
     phonenumber = db.Column(db.String(120), unique=True)
     profilepictureurl = db.Column(db.String(200))
@@ -14,10 +15,11 @@ class UserRepository(db.Model):
     timecreditonhold = db.Column(db.Integer)
     isactive = db.Column(db.Boolean)
 
-    def __init__(self, name, surname, username, email, phonenumber, profilepictureurl, hashedpassword, timecredit, timecreditonhold, isactive):
+    def __init__(self, name, surname, username, about, email, phonenumber, profilepictureurl, hashedpassword, timecredit, timecreditonhold, isactive):
         self.name = name
         self.surname = surname
         self.username = username
+        self.about = about
         self.email = email
         self.phonenumber = phonenumber
         self.profilepictureurl = profilepictureurl

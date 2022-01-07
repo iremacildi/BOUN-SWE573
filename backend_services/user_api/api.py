@@ -31,12 +31,13 @@ def create_user():
     name = user["username"]
     surname = user["surname"]
     username = user["username"]
+    about = user["about"]
     email = user["email"]
     phonenumber = user["phonenumber"]
     profilepictureurl = user["profilepictureurl"]
     hashedpassword = guard.hash_password(user["password"])
 
-    userrepo = UserRepository(name, surname, username, email, phonenumber, profilepictureurl, hashedpassword, 5, 0, True)
+    userrepo = UserRepository(name, surname, username, about, email, phonenumber, profilepictureurl, hashedpassword, 5, 0, True)
     newuser = userrepo.add()
     result = user_model.dump(newuser)
 
