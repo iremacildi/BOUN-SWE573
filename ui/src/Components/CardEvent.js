@@ -1,8 +1,6 @@
 import { useState } from 'react'
 import { Card, CardHeader, Avatar, IconButton, CardMedia, CardContent, Typography, CardActions } from "@mui/material";
-import FavoriteIcon from '@mui/icons-material/Favorite';
 import InfoIcon from '@mui/icons-material/Info';
-import { red } from '@mui/material/colors';
 import picnic from '../img/picnic.jpg'
 import DetailEvent from './DetailEvent';
 import Dialog from '@mui/material/Dialog';
@@ -11,14 +9,14 @@ import Draggable from 'react-draggable';
 import moment from 'moment';
 
 function PaperComponent(props) {
-  return (
-    <Draggable
-      handle="#draggable-dialog-title"
-      cancel={'[class*="MuiDialogContent-root"]'}
-    >
-      <Paper {...props} />
-    </Draggable>
-  );
+    return (
+        <Draggable
+            handle="#draggable-dialog-title"
+            cancel={'[class*="MuiDialogContent-root"]'}
+        >
+            <Paper {...props} />
+        </Draggable>
+    );
 }
 
 const CardEvent = (props) => {
@@ -33,7 +31,7 @@ const CardEvent = (props) => {
     };
 
     return (
-        <div className="card-event" style={{maxWidth:'350px'}}>
+        <div className="card-event" style={{ maxWidth: '350px' }}>
             <Card className="card">
                 <CardHeader
                     avatar={
@@ -52,8 +50,7 @@ const CardEvent = (props) => {
                 />
                 <CardContent>
                     <Typography variant="body2" color="text.secondary">
-                        Location: Istanbul<br/><br/>
-                        {props.event.description}
+                        Location: Istanbul
                     </Typography>
                 </CardContent>
                 <CardActions disableSpacing>
@@ -67,7 +64,7 @@ const CardEvent = (props) => {
                     PaperComponent={PaperComponent}
                     aria-labelledby="draggable-dialog-title"
                 >
-                    <DetailEvent />
+                    <DetailEvent event={props.event} />
                 </Dialog>
             </Card>
         </div>
