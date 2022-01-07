@@ -55,6 +55,12 @@ def login_user():
     resp.set_cookie('access_token', guard.encode_jwt_token(user), httponly=True)
     return resp
 
+@app.route('/logout', methods=['POST'])
+def logout_user():
+    resp = make_response(jsonify({'message': 'Successfully logged out.'}), 200)
+    resp.delete_cookie('access_token')
+    return resp
+
 @app.route('/userinfo', methods=['GET'])
 def user_info():
     id = request.args.get('id', type=int)

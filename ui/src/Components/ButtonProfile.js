@@ -64,6 +64,27 @@ const ButtonProfile = (props) => {
         }
     };
 
+    const logoutUser = () => {
+        try {
+            userapi.post('/logout')
+                .then(
+                    (response) => {
+                        if (response.status == 200) {
+                            console.log(response)
+                            navigate("../login", { replace: true, state: response.data });
+                        }
+                        else {
+                            console.log(response)
+                        }
+                    })
+                .catch(error => {
+                    console.log(error)
+                });
+        } catch (error) {
+            console.log(error)
+        }
+    };
+
     function handleListKeyDown(event) {
         if (event.key === 'Tab') {
             event.preventDefault();
@@ -122,7 +143,7 @@ const ButtonProfile = (props) => {
                                     <MenuItem onClick={handleClose}>Create Service</MenuItem>
                                     <MenuItem onClick={handleClose}>Create Event</MenuItem>
                                     <MenuItem onClick={handleClose}>My Account</MenuItem>
-                                    <MenuItem onClick={handleClose}>Logout</MenuItem>
+                                    <MenuItem onClick={logoutUser}>Logout</MenuItem>
                                 </MenuList>
                             </ClickAwayListener>
                         </Paper>
