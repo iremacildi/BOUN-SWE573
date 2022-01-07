@@ -12,8 +12,8 @@ def middleware_for_response(response):
 
 @app.route("/")
 def hello():
-    resp = make_response(f'Hi', 200)
-    resp.set_cookie('somecookiename', 'I am cookie', httponly=True)
+    resp = make_response(f'This is User API. I am alive.', 200)
+    resp.set_cookie('userapi', 'user api is working.', httponly=True)
     return resp
 
 @app.route("/verify")
@@ -36,7 +36,7 @@ def create_user():
     profilepictureurl = user["profilepictureurl"]
     hashedpassword = guard.hash_password(user["password"])
 
-    userrepo = UserRepository(name, surname, username, email, phonenumber, profilepictureurl, hashedpassword, 5, True)
+    userrepo = UserRepository(name, surname, username, email, phonenumber, profilepictureurl, hashedpassword, 5, 0, True)
     newuser = userrepo.add()
     result = user_model.dump(newuser)
 

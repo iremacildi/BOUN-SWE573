@@ -4,6 +4,6 @@ from app import ma
 class UserModel(ma.Schema):    
     class Meta:
         model = UserRepository
-        fields = ('id', 'name', 'surname', 'username', 'email', 'phonenumber', 'profilepictureurl', 'hashedpassword', 'timecredit', 'isactive')
+        fields = ('id', 'name', 'surname', 'username', 'email', 'phonenumber', 'profilepictureurl', 'hashedpassword', 'timecredit', 'timecreditonhold', 'isactive')
 
 user_model = UserModel()

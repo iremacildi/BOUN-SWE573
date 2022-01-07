@@ -11,9 +11,10 @@ class UserRepository(db.Model):
     profilepictureurl = db.Column(db.String(200))
     hashedpassword = db.Column(db.String(200))
     timecredit = db.Column(db.Integer)
+    timecreditonhold = db.Column(db.Integer)
     isactive = db.Column(db.Boolean)
 
-    def __init__(self, name, surname, username, email, phonenumber, profilepictureurl, hashedpassword, timecredit, isactive):
+    def __init__(self, name, surname, username, email, phonenumber, profilepictureurl, hashedpassword, timecredit, timecreditonhold, isactive):
         self.name = name
         self.surname = surname
         self.username = username
@@ -22,6 +23,7 @@ class UserRepository(db.Model):
         self.profilepictureurl = profilepictureurl
         self.hashedpassword = hashedpassword
         self.timecredit = timecredit
+        self.timecreditonhold = timecreditonhold
         self.isactive = isactive
     
     def add(self):
@@ -54,10 +56,6 @@ class UserRepository(db.Model):
     @property
     def rolenames(self):
         return 'role'
-        # try:
-        #     return self.roles.split(",")
-        # except Exception:
-        #     return []
 
     @property
     def password(self):
