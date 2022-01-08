@@ -73,11 +73,18 @@ def answer_request():
 
 @app.route('/unansweredrequests', methods=['GET'])
 def unanswered_requests():
-    #authentication eklenecek 
-    provider = json.loads(request.data)
-    providerid = provider["providerid"]
+    providerid = request.args.get('providerid', type=int)
     
     servicerequestrepo = ServiceRequestRepository.getbyproviderid(int(providerid))
+
+    result = service_request_model.dump(servicerequestrepo)
+    return jsonify(result)
+
+@app.route('/usersrequests', methods=['GET'])
+def users_requests():
+    userid = request.args.get('userid', type=int)
+    
+    servicerequestrepo = ServiceRequestRepository.getbyuserid(int(userid))
 
     result = service_request_model.dump(servicerequestrepo)
     return jsonify(result)
