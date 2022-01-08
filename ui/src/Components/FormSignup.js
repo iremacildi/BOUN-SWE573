@@ -173,7 +173,7 @@ export default function FormSignup() {
                                 autoComplete="family-name"
                             />
                         </Grid>
-                        <Grid item xs={12} sm={6}>
+                        <Grid item xs={12}>
                             <TextField
                                 required
                                 fullWidth
@@ -242,8 +242,8 @@ export default function FormSignup() {
                     </Button>
                     <Grid container justifyContent="flex-end">
                         <Grid item>
-                            <Link href="#" variant="body2">
-                                Already have an account? Sign in
+                            <Link href="../login" variant="body2">
+                                Already have an account? Log in
                             </Link>
                         </Grid>
                     </Grid>

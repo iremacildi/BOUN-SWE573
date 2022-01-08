@@ -1,12 +1,14 @@
 import Grid from '@mui/material/Grid';
 import FormSignup from '../Components/FormSignup';
-import Footer from '../Components/Footer';
+import Header from '../Components/Header';
 
 export default function SignUp() {
     return (
-        <Grid>
+        <Grid container columns={12} >
+            <Grid container item>
+                <Header userInfo={null} />
+            </Grid>
             <FormSignup />
-            <Footer />
         </Grid>
     );
 }
