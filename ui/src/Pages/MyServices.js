@@ -83,7 +83,7 @@ const MyServices = () => {
                             aria-controls="panel1a-content"
                             id="panel1a-header"
                         >
-                            <Typography>My Services (Provided)</Typography>
+                            <Typography>My Services (Provider)</Typography>
                         </AccordionSummary>
                         <AccordionDetails>
                             <Grid container spacing={3} columns={16} direction="row">
@@ -108,7 +108,7 @@ const MyServices = () => {
                             aria-controls="panel1a-content"
                             id="panel1a-header"
                         >
-                            <Typography>My Services (Attended)</Typography>
+                            <Typography>My Services (Attendee)</Typography>
                         </AccordionSummary>
                         <AccordionDetails>
                             <Grid container item spacing={2} lg={16} justifyContent="center">
