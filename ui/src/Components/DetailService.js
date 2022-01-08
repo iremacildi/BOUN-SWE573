@@ -23,7 +23,8 @@ const DetailService = (props) => {
         const body = {
             userid: props.userid,
             serviceid: props.service.id,
-            providerid: props.service.provideruserid
+            providerid: props.service.provideruserid,
+            servicetimecredit: props.service.duration,
         }
 
         console.log(body)

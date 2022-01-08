@@ -5,6 +5,7 @@ from data.event_attendance_repository import EventAttendanceRepository
 from model.service_request_model import service_request_model
 from model.event_attendance_model import event_attendance_model
 import json
+import requests
 
 @app.route("/")
 def hello():
@@ -14,19 +15,29 @@ def hello():
 
 @app.route('/requestservice', methods=['PUT'])
 def request_service():
-    #authentication eklenecek 
     servicerequest = json.loads(request.data)
     userid = servicerequest["userid"]
     serviceid = servicerequest["serviceid"]
     providerid = servicerequest["providerid"]
+    servicetimecredit = servicerequest["servicetimecredit"]
+
+    userinfo = requests.get("http://user-api/userinfo?id=" + str(userid)).json()
+
+    if (int(userinfo['timecredit']) - int(userinfo['timecreditonhold'])) < int(servicetimecredit):
+        return jsonify({'issuccessful':'false', 'message':'You need more time credit for this service.'})
 
     servicerequestrepo = ServiceRequestRepository(serviceid, userid, providerid, False, False, True)
     try:
-        newservicerequest = servicerequestrepo.add()
-        result = service_request_model.dump(newservicerequest)
-        return jsonify({'issuccessful':'true', 'message':'Great! Your service request has been sent.'})
+        iscreditholded = requests.get("http://user-api/holdcredits?timecredit=" + str(servicetimecredit) + "&userid=" + str(userid)).status_code == 200
+
+        if iscreditholded:
+            newservicerequest = servicerequestrepo.add()
+            result = service_request_model.dump(newservicerequest)
+            return jsonify({'issuccessful':'true', 'message':'Great! Your service request has been sent.'})
+        else:
+            return jsonify({'issuccessful':'false', 'message':'We could not send your request. Please try again.'})
     except:
-        return jsonify({'issuccessful':'false', 'message':'We couldn not send your request somehow. Sorry...'})
+        return jsonify({'issuccessful':'false', 'message':'We could not send your request somehow. Sorry...'})
 
 @app.route('/attendevent', methods=['PUT'])
 def attend_event():
@@ -60,7 +71,7 @@ def answer_request():
     except:
         return jsonify({'issuccessful':'false', 'message':'We couldn not get your participation request somehow. Sorry...'})
 
-@app.route('/unansweredrequests', methods=['GER'])
+@app.route('/unansweredrequests', methods=['GET'])
 def unanswered_requests():
     #authentication eklenecek 
     provider = json.loads(request.data)

@@ -35,6 +35,12 @@ class UserRepository(db.Model):
 
         return self
     
+    def update(self):
+        db.session.commit()
+        db.session.flush()
+
+        return self
+    
     def get(email):
         user = UserRepository.query.filter_by(email=email).first()
 

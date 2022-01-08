@@ -79,3 +79,18 @@ def multipleuser_info():
     users = [user_model.dump(x) for x in users]
     resp = make_response(jsonify(users), 200)
     return resp
+
+@app.route('/holdcredits', methods=['GET'])
+def hold_credits():
+    timecredit = request.args.get('timecredit', type=int)
+    userid = request.args.get('userid', type=int)
+
+    user = UserRepository.getbyid(userid)
+    user.timecreditonhold = int(timecredit)
+
+    try:
+        updateduser = user.update()
+        result = user_model.dump(updateduser)
+        return make_response(jsonify({'issuccessful':'true', 'message':'Successful.'}), 200)
+    except:
+        return make_response(jsonify({'issuccessful':'false', 'message':'Error.'}), 500)
