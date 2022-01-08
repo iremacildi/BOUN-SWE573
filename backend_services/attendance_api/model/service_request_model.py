@@ -4,6 +4,6 @@ from app import ma
 class ServiceRequestModel(ma.Schema):    
     class Meta:
         model = ServiceRequestRepository
-        fields = ('id', 'serviceid', 'userid', 'isapproved', 'isanswered', 'isactive')
+        fields = ('id', 'serviceid', 'userid', 'username', 'isapproved', 'isanswered', 'isactive')
 
 service_request_model = ServiceRequestModel()

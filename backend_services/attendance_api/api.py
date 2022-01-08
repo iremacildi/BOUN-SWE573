@@ -88,3 +88,19 @@ def users_requests():
 
     result = service_request_model.dump(servicerequestrepo)
     return jsonify(result)
+
+@app.route('/servicesrequests', methods=['GET'])
+def services_requests():
+    serviceid = request.args.get('serviceid', type=int)
+    
+    servicerequests = ServiceRequestRepository.getbyserviceid(int(serviceid))
+    userids = [s.userid for s in servicerequests]
+
+    servicerequests = [service_request_model.dump(x) for x in servicerequests]
+
+    usersinfo = requests.post("http://user-api/multipleuserinfo", data = json.dumps(userids)).json()
+
+    for servicerequest in servicerequests:
+        servicerequest['username'] = [user['username'] for user in usersinfo if user['id'] == servicerequest['userid']][0]
+
+    return jsonify(servicerequests)

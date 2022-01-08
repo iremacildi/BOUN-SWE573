@@ -37,28 +37,14 @@ const ButtonProfile = (props) => {
         setOpen(false);
     };
 
-    const handleCreateService = (event) => {
-        navigate("../createservice", { replace: true, state: { serviceId: 0 } });
-    };
-
-    const handleEventService = (event) => {
-        navigate("../createevent", { replace: true, state: { eventId: 0 } });
-    };
-
-    const handleProfile = (event) => {
-        verifyUser()
-
-        setOpen(false);
-    };
-
-    const verifyUser = () => {
+    const handleMyServices = () => {
         try {
             userapi.get('/verify')
                 .then(
                     (response) => {
                         if (response.status == 200) {
                             console.log(response)
-                            navigate("../profile", { replace: true });
+                            navigate("../myservices", { replace: true, state: response.data });
                         }
                         else {
                             console.log(response)
@@ -70,6 +56,18 @@ const ButtonProfile = (props) => {
         } catch (error) {
             console.log(error)
         }
+    };
+
+    const handleCreateService = (event) => {
+        navigate("../createservice", { replace: true, state: { serviceId: 0 } });
+    };
+
+    const handleEventService = (event) => {
+        navigate("../createevent", { replace: true, state: { eventId: 0 } });
+    };
+
+    const handleProfile = (event) => {
+        navigate("../profile", { replace: true });
     };
 
     const logoutUser = () => {
@@ -148,7 +146,7 @@ const ButtonProfile = (props) => {
                                     onKeyDown={handleListKeyDown}
                                 >
                                     <MenuItem onClick={handleProfile}>Profile</MenuItem>
-                                    <MenuItem onClick={handleClose}>My Services</MenuItem>
+                                    <MenuItem onClick={handleMyServices}>My Services</MenuItem>
                                     <MenuItem onClick={handleClose}>My Events</MenuItem>
                                     <MenuItem onClick={handleCreateService}>Create Service</MenuItem>
                                     <MenuItem onClick={handleEventService}>Create Event</MenuItem>

@@ -40,14 +40,14 @@ function Home() {
     getAllServices();
     getAllEvents();
   }, []);
-  
+
   const serviceCards = () => {
     if (services != null) {
 
       return (
         services.map((service) =>
           <Grid item>
-            <CardService service={service} userid={userInfo.id}/>
+            <CardService service={service} userid={userInfo.id} />
           </Grid>
         ));
     }
