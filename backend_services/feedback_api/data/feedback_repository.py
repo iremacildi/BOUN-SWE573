@@ -9,14 +9,16 @@ class FeedbackRepository(db.Model):
     userid = db.Column(db.Integer)
     provideruserid = db.Column(db.Integer)
     isdeleted = db.Column(db.Boolean)
+    isgivenbyprovider = db.Column(db.Boolean)
 
-    def __init__(self, serviceid, comment, rate, userid, provideruserid, isdeleted):
+    def __init__(self, serviceid, comment, rate, userid, provideruserid, isdeleted, isgivenbyprovider):
         self.serviceid = serviceid
         self.comment = comment
         self.rate = rate
         self.userid = userid
         self.provideruserid = provideruserid
         self.isdeleted = isdeleted
+        self.isgivenbyprovider = isgivenbyprovider
     
     def add(self):
         db.session.add(self)
@@ -30,3 +32,8 @@ class FeedbackRepository(db.Model):
         db.session.flush()
 
         return self
+    
+    def getbyserviceid(serviceid):
+        feedbacks = FeedbackRepository.query.with_entities(FeedbackRepository.id).filter_by(serviceid=serviceid).all()
+
+        return feedbacks

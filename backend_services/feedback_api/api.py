@@ -19,12 +19,16 @@ def create_feedback():
     userid = feedback["userid"]
     comment = feedback["comment"]
     rate = feedback["rate"]
+    isgivenbyprovider = feedback["isgivenbyprovider"]
+    provideruserid = feedback["provideruserid"]
+    duration = feedback["duration"]
     
-    try:
-        serviceinfo = requests.get("http://service-api:81/serviceinfo?id=" + str(serviceid)).json()
-        feedbackrepo = FeedbackRepository(serviceid, comment, rate, userid, serviceinfo['provideruserid'], False)
-        newfeedback = feedbackrepo.add()
-        result = feedback_model.dump(newfeedback)
-        return jsonify({'issuccessful':'true', 'message':'Great! Thanks for your feedback.'})
-    except:
-        return jsonify({'issuccessful':'false', 'message':'We couldn not get your feedback somehow. Please try again.'})
+    feedbackcount = len(FeedbackRepository.getbyserviceid(int(serviceid)))
+    if feedbackcount > 1:
+        transactioninfo = {"userid": userid, "providerid":provideruserid, "duration":duration}
+        providersinfo = requests.post("http://user-api/credittransaction", data = json.dumps(transactioninfo)).json()
+    
+    feedbackrepo = FeedbackRepository(serviceid, comment, rate, userid, provideruserid, False, isgivenbyprovider)
+    newfeedback = feedbackrepo.add()
+    result = feedback_model.dump(newfeedback)
+    return jsonify({'issuccessful':'true', 'message':'Great! Thanks for your feedback.'})

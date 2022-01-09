@@ -9,14 +9,16 @@ class ServiceRequestRepository(db.Model):
     isapproved = db.Column(db.Boolean)
     isanswered = db.Column(db.Boolean)
     isactive = db.Column(db.Boolean)
+    iscompleted = db.Column(db.Boolean)
 
-    def __init__(self, serviceid, userid, providerid, isapproved, isanswered, isactive):
+    def __init__(self, serviceid, userid, providerid, isapproved, isanswered, isactive, iscompleted):
         self.serviceid = serviceid
         self.userid = userid
         self.providerid = providerid
         self.isapproved = isapproved
         self.isanswered = isanswered
         self.isactive = isactive
+        self.iscompleted = iscompleted
     
     def add(self):
         db.session.add(self)

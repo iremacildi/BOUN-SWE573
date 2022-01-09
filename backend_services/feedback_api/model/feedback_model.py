@@ -4,6 +4,6 @@ from app import ma
 class FeedbackModel(ma.Schema):    
     class Meta:
         model = FeedbackRepository
-        fields = ('id', 'serviceid', 'comment', 'rate', 'userid', 'provideruserid', 'isdeleted')
+        fields = ('id', 'serviceid', 'comment', 'rate', 'userid', 'provideruserid', 'isdeleted', 'isgivenbyprovider')
         
 feedback_model = FeedbackModel()
