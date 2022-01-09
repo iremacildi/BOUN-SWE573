@@ -98,12 +98,12 @@ const DetailService = (props) => {
             </DialogTitle>
             <DialogContent>
                 <DialogContentText>
-                    <img src={props.service.pictureurl == 'plants' ? plants:
-                props.service.pictureurl == 'rembrandt' ? rembrandt : 
-                props.service.pictureurl == 'cappadocia' ? cappadocia :
-                props.service.pictureurl == 'forestimage' ? forestimage :
-                props.service.pictureurl == 'historical' ? historical : 
-                props.service.pictureurl == 'tea' ? tea : null} alt="Service Cover Photo" style={{ width: '530px' }} /><br /><br />
+                    <img src={props.service.pictureurl == 'plants' ? plants :
+                        props.service.pictureurl == 'rembrandt' ? rembrandt :
+                            props.service.pictureurl == 'cappadocia' ? cappadocia :
+                                props.service.pictureurl == 'forestimage' ? forestimage :
+                                    props.service.pictureurl == 'historical' ? historical :
+                                        props.service.pictureurl == 'tea' ? tea : null} alt="Service Cover Photo" style={{ width: '530px' }} /><br /><br />
                     <Typography variant="body2" color="text.secondary">
                         Location: Istanbul<br />
                         Date: {moment(props.service.startdate).format('DD/MM/yyyy HH:mm')}<br />
@@ -123,15 +123,25 @@ const DetailService = (props) => {
                     anchorOrigin={{ vertical, horizontal }}
                     style={{ marginBottom: '55px', width: '500px' }}
                 />
-                <Button
-                    fullWidth
-                    variant="contained"
-                    sx={{ mt: 3, mb: 2 }}
-                    style={{ backgroundColor: "darkslategray" }}
-                    onClick={handleservicerequest}
-                >
-                    Request Service
-                </Button>
+                {props.userid == props.service.provideruserid ? <Button
+                        fullWidth
+                        variant="contained"
+                        sx={{ mt: 3, mb: 2 }}
+                        style={{ backgroundColor: "gray", color:"white" }}
+                        disabled
+                    >
+                        You are the provider of this service.
+                    </Button> 
+                    :
+                    <Button
+                        fullWidth
+                        variant="contained"
+                        sx={{ mt: 3, mb: 2 }}
+                        style={{ backgroundColor: "darkslategray" }}
+                        onClick={handleservicerequest}
+                    >
+                        Request Service
+                    </Button>}
             </DialogContent>
         </div>
     )
