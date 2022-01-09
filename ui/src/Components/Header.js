@@ -43,11 +43,6 @@ const Header = (props) => {
                                 Filter
                             </Button>
                         </Grid>
-                        {/* <Grid item>
-                            <Button variant="contained" endIcon={<SortIcon />} style={{ backgroundColor: "white", color: "gray" }}>
-                                Sort
-                            </Button>
-                        </Grid> */}
                     </Grid>
                 </Grid>
                 <Grid container item spacing={0.5} xs={6} sm={6} md={6} lg={6} xl={6} direction="row" justifyContent="flex-end" alignItems="center">
@@ -64,7 +59,7 @@ const Header = (props) => {
                     <Grid container item lg={24} justifyContent="flex-end" alignItems="center">
                         <Grid item style={{ marginRight: '10px' }}>
                             <Typography variant="body2">
-                                <AccountBalanceWalletIcon style={{ color: 'white', fontSize: '20px' }} /> {props.userInfo.timecredit} hours
+                                <AccountBalanceWalletIcon style={{ color: 'white', fontSize: '20px' }} /> {props.userInfo.timecredit - props.userInfo.timecreditonhold} hours
                             </Typography>
                         </Grid>
                     </Grid>
