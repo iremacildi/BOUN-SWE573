@@ -63,3 +63,8 @@ class ServiceRepository(db.Model):
         services = ServiceRepository.query.filter(ServiceRepository.description.like('%' + str(text) + '%')).all()
 
         return services
+    
+    def getbyidlist(idlist):
+        services = ServiceRepository.query.with_entities(ServiceRepository.id, ServiceRepository.name, ServiceRepository.startdate, ServiceRepository.duration, ServiceRepository.provideruserid).filter(ServiceRepository.id.in_(idlist)).all()
+
+        return services       

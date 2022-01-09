@@ -5,6 +5,7 @@ import Header from '../Components/Header';
 import axios from 'axios';
 import { useLocation } from 'react-router-dom';
 import MyServicesListItem from '../Components/MyServicesListItem';
+import MyServiceRequests from '../Components/MyServiceRequests';
 
 const serviceapi = axios.create({
     baseURL: 'http://localhost:81'
@@ -22,6 +23,7 @@ const MyServices = () => {
 
     useEffect(() => {
         getMyServicesProvided(location.state.id);
+        getMyServicesAttended(location.state.id);
     }, []);
 
     const providedServices = () => {
@@ -34,12 +36,16 @@ const MyServices = () => {
     }
 
     const attendedServices = () => {
-
+        if (myServicesAttended != null) {
+            return (
+                myServicesAttended.map((servicerequest) =>
+                    <MyServiceRequests servicerequest={servicerequest} />
+                ));
+        }
     }
 
     const getMyServicesProvided = (id) => {
         try {
-
             serviceapi.get('/getservices?providerid=' + id)
                 .then(
                     (response) => {
@@ -63,8 +69,29 @@ const MyServices = () => {
         }
     };
 
-    const getMyServicesAttended = () => {
-
+    const getMyServicesAttended = (id) => {
+        try {
+            attendanceapi.get('/usersrequests?userid=' + id)
+                .then(
+                    (response) => {
+                        if (response.status == 200) {
+                            setMyServicesAttended(response.data)
+                        }
+                        else {
+                            setMyServicesAttended(null)
+                            console.log(response)
+                        }
+                    })
+                .catch(error => {
+                    setMyServicesAttended(null)
+                    console.log(error)
+                });
+        } catch (error) {
+            setMyServicesAttended(null)
+            console.log(error)
+        } finally {
+            setLoading(false)
+        }
     };
 
     if (loading)
@@ -93,9 +120,6 @@ const MyServices = () => {
                                     </List>
                                 </Grid>
                             </Grid>
-                            {/* <Grid container item spacing={2} lg={16} justifyContent="center">
-                                {serviceCards()}
-                            </Grid> */}
                         </AccordionDetails>
                     </Accordion>
                 </Grid>

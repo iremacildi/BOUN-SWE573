@@ -46,6 +46,15 @@ def service_info():
     result = servicedetail_model.dump(servicedetail)
     return jsonify(result)
 
+@app.route('/multipleserviceinfo', methods=['POST'])
+def serviceinfo_info():
+    idlist = json.loads(request.data)
+
+    services = ServiceRepository.getbyidlist(idlist)
+    services = [service_model.dump(x) for x in services]
+    resp = make_response(jsonify(services), 200)
+    return resp
+
 @app.route('/searchservice', methods=['GET'])
 def search_service():
     #authentication eklenecek 

@@ -6,6 +6,7 @@ from model.service_request_model import service_request_model
 from model.event_attendance_model import event_attendance_model
 import json
 import requests
+import datetime
 
 @app.route("/")
 def hello():
@@ -26,7 +27,7 @@ def request_service():
     if (int(userinfo['timecredit']) - int(userinfo['timecreditonhold'])) < int(servicetimecredit):
         return jsonify({'issuccessful':'false', 'message':'You need more time credit for this service.'})
 
-    servicerequestrepo = ServiceRequestRepository(serviceid, userid, providerid, False, False, True)
+    servicerequestrepo = ServiceRequestRepository(serviceid, userid, providerid, False, False, True, False)
     try:
         iscreditholded = requests.get("http://user-api/holdcredits?timecredit=" + str(servicetimecredit) + "&userid=" + str(userid)).status_code == 200
 
@@ -84,10 +85,22 @@ def unanswered_requests():
 def users_requests():
     userid = request.args.get('userid', type=int)
     
-    servicerequestrepo = ServiceRequestRepository.getbyuserid(int(userid))
+    servicerequests = ServiceRequestRepository.getbyuserid(int(userid))
+    serviceids = [s.serviceid for s in servicerequests]
+    
+    servicerequests = [service_request_model.dump(x) for x in servicerequests]
+        
+    servicesinfo = requests.post("http://service-api:81/multipleserviceinfo", data = json.dumps(serviceids)).json()
 
-    result = service_request_model.dump(servicerequestrepo)
-    return jsonify(result)
+    for servicerequest in servicerequests:
+        servicerequest['servicename'] = [service['name'] for service in servicesinfo if service['id'] == servicerequest['serviceid']][0]
+        # servicerequest['isended'] = [(datetime.datetime(service['startdate']) < datetime.datetime.now()) for service in servicesinfo if service['id'] == servicerequest['serviceid']][0]
+        servicerequest['isended'] = [service['startdate'] for service in servicesinfo if service['id'] == servicerequest['serviceid']][0]
+        # servicerequest['serviceenddate'] = [datetime.datetime(service['startdate']) + datetime.timedelta(hours=int(service['duration'])) for service in servicesinfo if service['id'] == servicerequest['serviceid']][0]
+        servicerequest['serviceduration'] = [service['duration'] for service in servicesinfo if service['id'] == servicerequest['serviceid']][0]
+        servicerequest['providerid'] = [service['provideruserid'] for service in servicesinfo if service['id'] == servicerequest['serviceid']][0]
+
+    return jsonify(servicerequests)
 
 @app.route('/servicesrequests', methods=['GET'])
 def services_requests():
