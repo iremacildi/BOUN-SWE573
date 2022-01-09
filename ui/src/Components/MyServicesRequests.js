@@ -1,10 +1,6 @@
-import { useEffect, useState, Fragment } from 'react'
-import { Accordion, AccordionDetails, Button, AccordionSummary, Grid, Paper, Typography, ListItem, ListItemText, Divider, List } from '@mui/material';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import Header from '../Components/Header';
+import { useEffect, useState } from 'react'
+import { Button, Grid, ListItem, ListItemText, List } from '@mui/material';
 import axios from 'axios';
-import { useLocation } from 'react-router-dom';
-import MyServicesListItem from '../Components/MyServicesListItem';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import ThumbDownIcon from '@mui/icons-material/ThumbDown';
 
@@ -142,7 +138,7 @@ const MyServicesRequests = (props) => {
     return (
         <Grid container columns={16} style={{ width: '600px', height: '500px', padding: '32px' }}>
             <Grid item lg={16}>
-                {props.service.name}
+                {props.service.name + ' - Capacity: ' + props.service.capacity + ' people'}
                 <List sx={{ width: '100%', bgcolor: 'background.paper' }}>
                     {myServiceRequests()}
                 </List>

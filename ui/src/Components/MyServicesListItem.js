@@ -6,6 +6,7 @@ import axios from 'axios';
 import { useLocation } from 'react-router-dom';
 import MyServicesRequests from './MyServicesRequests';
 import Draggable from 'react-draggable';
+import moment from 'moment';
 
 function PaperComponent(props) {
     return (
@@ -42,7 +43,7 @@ const MyServicesListItem = (props) => {
                                 variant="body2"
                                 color="text.primary"
                             >
-                                {props.service.startdate}
+                                {moment(props.service.startdate).format('DD/MM/yyyy HH:mm')}
                             </Typography>
                             {" — " + props.service.location}
                         </Fragment>
