@@ -62,9 +62,12 @@ export default function PersonalInfo(props) {
                             <AccountBalanceWalletIcon />
                         </ListItemAvatar>
                         <ListItemText primary={props.userInfo.timecredit + ' hours'} />
-                        <Tooltip title={'Because you have unfinished service requests, ' + props.userInfo.timecreditonhold + ' hours cannot be used.'}>
-                            <HelpIcon style={{ color: 'gray' }} />
-                        </Tooltip>
+                        {props.userInfo.timecreditonhold == 0 ?
+                            null
+                            :
+                            <Tooltip title={'Because you have unfinished service requests, ' + props.userInfo.timecreditonhold + ' hours cannot be used.'}>
+                                <HelpIcon style={{ color: 'gray' }} />
+                            </Tooltip>}
                     </ListItem>
                 </List>
             </Grid>
