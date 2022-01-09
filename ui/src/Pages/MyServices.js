@@ -30,7 +30,7 @@ const MyServices = () => {
         if (myServicesProvided != null) {
             return (
                 myServicesProvided.map((service) =>
-                    <MyServicesListItem service={service} />
+                    <MyServicesListItem service={service} userid={location.state.id} />
                 ));
         }
     }
@@ -39,7 +39,7 @@ const MyServices = () => {
         if (myServicesAttended != null) {
             return (
                 myServicesAttended.map((servicerequest) =>
-                    <MyServiceRequests servicerequest={servicerequest} />
+                    <MyServiceRequests servicerequest={servicerequest} userid={location.state.id} />
                 ));
         }
     }

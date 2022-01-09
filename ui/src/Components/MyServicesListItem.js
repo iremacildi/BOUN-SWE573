@@ -1,12 +1,10 @@
-import { useEffect, useState, Fragment } from 'react'
-import { Accordion, AccordionDetails, Button, AccordionSummary, Grid, Paper, Typography, ListItem, ListItemText, Dialog, Divider, List } from '@mui/material';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import Header from '../Components/Header';
-import axios from 'axios';
-import { useLocation } from 'react-router-dom';
+import { useState, Fragment } from 'react'
+import { Button, IconButton, Paper, Typography, ListItem, ListItemText, Dialog } from '@mui/material';
 import MyServicesRequests from './MyServicesRequests';
 import Draggable from 'react-draggable';
 import moment from 'moment';
+import InfoIcon from '@mui/icons-material/Info';
+import DetailService from './DetailService';
 
 function PaperComponent(props) {
     return (
@@ -21,6 +19,7 @@ function PaperComponent(props) {
 
 const MyServicesListItem = (props) => {
     const [open, setOpen] = useState(false);
+    const [serviceInfoOpen, setServiceInfoOpen] = useState(false);
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -30,9 +29,20 @@ const MyServicesListItem = (props) => {
         setOpen(false);
     };
 
+    const handleClickServiceInfoOpen = () => {
+        setServiceInfoOpen(true);
+    };
+
+    const handleClickServiceInfoClose = () => {
+        setServiceInfoOpen(false);
+    };
+
     return (
         <>
             <ListItem>
+                <IconButton onClick={handleClickServiceInfoOpen}>
+                    <InfoIcon />
+                </IconButton>
                 <ListItemText
                     primary={props.service.name}
                     secondary={
@@ -65,6 +75,14 @@ const MyServicesListItem = (props) => {
                     aria-labelledby="draggable-dialog-title"
                 >
                     <MyServicesRequests service={props.service} />
+                </Dialog>
+                <Dialog
+                    open={serviceInfoOpen}
+                    onClose={handleClickServiceInfoClose}
+                    PaperComponent={PaperComponent}
+                    aria-labelledby="draggable-dialog-title"
+                >
+                    <DetailService service={props.service} userid={props.userid}/>
                 </Dialog>
             </ListItem>
         </>
