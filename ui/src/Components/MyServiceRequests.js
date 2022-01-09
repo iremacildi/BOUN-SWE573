@@ -68,7 +68,8 @@ const MyServiceRequests = (props) => {
                         primary={props.servicerequest.servicename}
                     />
                 </Grid>
-                {servicedate < now ?
+                {/* {servicedate < now ?props */}
+                {props.servicerequest.isapproved & servicedate <= now ?
                     <Grid container item lg={12}>
                         <Box component="form" noValidate onSubmit={handleComplete}>
                             <Grid container item spacing={1} lg={16}>
