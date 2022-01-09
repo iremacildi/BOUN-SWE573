@@ -104,14 +104,21 @@ const MyServiceRequests = (props) => {
                                     </Button>
                                 </Grid>
                             </Grid>
-                        </Box> </Grid> :
-                    <Button
-                        variant="contained"
-                        style={{ backgroundColor: "gray", width: '30%' }}
-                        onClick={handleCancel}
-                    >
-                        Cancel Request
-                    </Button>
+                        </Box> </Grid> : !props.servicerequest.isapproved && props.servicerequest.isanswered ?
+                        <Button
+                            variant="contained"
+                            style={{ backgroundColor: "pink", width: '30%' }}
+                            disabled
+                        >
+                            Declined by Provider
+                        </Button> :
+                        <Button
+                            variant="contained"
+                            style={{ backgroundColor: "gray", width: '30%' }}
+                            onClick={handleCancel}
+                        >
+                            Cancel Request
+                        </Button>
                 }
             </ListItem>
         </Grid>
