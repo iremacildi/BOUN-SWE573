@@ -28,6 +28,7 @@ const MyServicesRequests = (props) => {
                     (response) => {
                         if (response.status == 200) {
                             setServiceRequests(response.data)
+                            setIsApproved(response.data[0].isapproved)
                         }
                         else {
                             setServiceRequests(null)
@@ -52,7 +53,6 @@ const MyServicesRequests = (props) => {
                 .then(
                     (response) => {
                         if (response.status == 200) {
-                            console.log(response)
                             setIsApproved(body.isapproved)
                         }
                         else {
@@ -106,19 +106,6 @@ const MyServicesRequests = (props) => {
                             <Grid item lg={9}>
                                 <ListItemText
                                     primary={serviceRequest.username}
-                                    secondary={
-                                        <Fragment>
-                                            <Typography
-                                                sx={{ display: 'inline' }}
-                                                component="span"
-                                                variant="body2"
-                                                color="text.primary"
-                                            >
-                                                {serviceRequest.isapproved}
-                                            </Typography>
-                                            {/* {" — " + props.service.location} */}
-                                        </Fragment>
-                                    }
                                 />
                             </Grid>
                         </Grid>
