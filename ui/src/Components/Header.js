@@ -34,20 +34,20 @@ const Header = (props) => {
             </Grid>
             {props.userInfo == null ? null : <>
                 <Grid container item spacing={1} xs={12} sm={12} md={12} lg={12} xl={12} justifyContent="flex-end" alignItems="center">
-                    <Grid item xs={22} sm={24} md={24} lg={14} xl={15}>
+                    <Grid item xs={22} sm={24} md={24} lg={17} xl={18}>
                         <SearchBox />
                     </Grid>
-                    <Grid container item spacing={2} xs={24} sm={24} md={24} lg={10} xl={9} justifyContent="flex-end" alignItems="center">
+                    <Grid container item spacing={2} xs={24} sm={24} md={24} lg={7} xl={6} justifyContent="flex-end" alignItems="center">
                         <Grid item>
                             <Button variant="contained" endIcon={<FilterAltIcon />} style={{ backgroundColor: "white", color: "gray" }}>
                                 Filter
                             </Button>
                         </Grid>
-                        <Grid item>
+                        {/* <Grid item>
                             <Button variant="contained" endIcon={<SortIcon />} style={{ backgroundColor: "white", color: "gray" }}>
                                 Sort
                             </Button>
-                        </Grid>
+                        </Grid> */}
                     </Grid>
                 </Grid>
                 <Grid container item spacing={0.5} xs={6} sm={6} md={6} lg={6} xl={6} direction="row" justifyContent="flex-end" alignItems="center">

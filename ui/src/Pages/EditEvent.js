@@ -62,8 +62,8 @@ export default function EditEvent() {
             duration: data.get('duration'),
             capacity: data.get('capacity'),
             organizeruserid: userInfo.id,
-            pictureurl: 'pictureurl',
-            location: 'location'
+            pictureurl: 'cinema',
+            location: 'Besiktas, Istanbul'
         }
 
         console.log(body)

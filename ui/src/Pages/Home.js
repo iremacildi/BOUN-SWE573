@@ -146,24 +146,6 @@ function Home() {
       </Grid>
       <Grid container item lg={16} justifyContent="center" alignItems="center">
         <Grid item lg={15}>
-          <Accordion>
-            <AccordionSummary
-              expandIcon={<ExpandMoreIcon />}
-              aria-controls="panel1a-content"
-              id="panel1a-header"
-            >
-              <Typography>Services</Typography>
-            </AccordionSummary>
-            <AccordionDetails>
-              <Grid container item spacing={2} lg={16} justifyContent="center">
-                {serviceCards()}
-              </Grid>
-            </AccordionDetails>
-          </Accordion>
-        </Grid>
-      </Grid>
-      <Grid container item lg={16} justifyContent="center" alignItems="center">
-        <Grid item lg={15}>
           <Accordion >
             <AccordionSummary
               expandIcon={<ExpandMoreIcon />}
@@ -175,6 +157,24 @@ function Home() {
             <AccordionDetails>
               <Grid container item spacing={2} lg={16} justifyContent="center">
                 {eventCards()}
+              </Grid>
+            </AccordionDetails>
+          </Accordion>
+        </Grid>
+      </Grid>
+      <Grid container item lg={16} justifyContent="center" alignItems="center">
+        <Grid item lg={15}>
+          <Accordion>
+            <AccordionSummary
+              expandIcon={<ExpandMoreIcon />}
+              aria-controls="panel1a-content"
+              id="panel1a-header"
+            >
+              <Typography>Services</Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              <Grid container item spacing={2} lg={16} justifyContent="center">
+                {serviceCards()}
               </Grid>
             </AccordionDetails>
           </Accordion>

@@ -62,8 +62,8 @@ export default function EditService() {
             duration: data.get('duration'),
             capacity: data.get('capacity'),
             provideruserid: userInfo.id,
-            pictureurl: 'pictureurl',
-            location: 'location'
+            pictureurl: 'tea',
+            location: 'Kadikoy, Istanbul'
         }
 
         console.log(body)
