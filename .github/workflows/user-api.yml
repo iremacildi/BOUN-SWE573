@@ -19,14 +19,13 @@ jobs:
           with:
             creds: ${{ secrets.AZURE_CREDENTIALS }}
         
-        - name: 'Build and push image'
-          uses: azure/docker-login@v1
+        - name: 'Build and push image'          
           env:
-            CI: true
             POSTGRESDB: ${{ secrets.POSTGRESDB }}
             POSTGRESPASS: ${{ secrets.POSTGRESPASS }}
             POSTGRESURL: ${{ secrets.POSTGRESURL }}
             POSTGRESUSER: ${{ secrets.POSTGRESUSER }}
+          uses: azure/docker-login@v1
           with:
             login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }}
             username: ${{ secrets.REGISTRY_USERNAME }}
@@ -36,6 +35,11 @@ jobs:
             docker build . -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/user-api:${{ github.sha }}
             docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/user-api:${{ github.sha }}
         - name: 'Deploy to Azure Container Instances'
+          env:
+            POSTGRESDB: ${{ secrets.POSTGRESDB }}
+            POSTGRESPASS: ${{ secrets.POSTGRESPASS }}
+            POSTGRESURL: ${{ secrets.POSTGRESURL }}
+            POSTGRESUSER: ${{ secrets.POSTGRESUSER }}
           uses: 'azure/aci-deploy@v1'
           with:
             resource-group: ${{ secrets.RESOURCE_GROUP }}
