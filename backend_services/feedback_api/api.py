@@ -26,7 +26,7 @@ def create_feedback():
     feedbackcount = len(FeedbackRepository.getbyserviceid(int(serviceid)))
     if feedbackcount > 1:
         transactioninfo = {"userid": userid, "providerid":provideruserid, "duration":duration}
-        providersinfo = requests.post("http://user-api/credittransaction", data = json.dumps(transactioninfo)).json()
+        providersinfo = requests.post(app.config['USER_API'] + "/credittransaction", data = json.dumps(transactioninfo)).json()
     
     feedbackrepo = FeedbackRepository(serviceid, comment, rate, userid, provideruserid, False, isgivenbyprovider)
     newfeedback = feedbackrepo.add()
