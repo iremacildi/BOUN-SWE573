@@ -63,6 +63,11 @@ const DetailService = (props) => {
             setMessage("So sorry, we couldn't create your service. Could you please try again.")
             setOpen(true)
             console.log(error)
+        } finally{
+            if(props.iscancelled)
+            {
+                props.setCancelledFalse()
+            }
         }
     };
 
@@ -124,7 +129,7 @@ const DetailService = (props) => {
                     anchorOrigin={{ vertical, horizontal }}
                     style={{ marginBottom: '55px', width: '500px' }}
                 />
-                {props.service.providerusername ?
+                {props.service.providerusername || props.iscancelled?
                     props.userid == props.service.provideruserid ? <Button
                         fullWidth
                         variant="contained"

@@ -112,3 +112,21 @@ def services_requests():
         servicerequest['username'] = [user['username'] for user in usersinfo if user['id'] == servicerequest['userid']][0]
 
     return jsonify(servicerequests)
+
+@app.route('/cancelservicerequest', methods=['PUT'])
+def cancel_request():
+    servicerequest = json.loads(request.data)
+    requestid = servicerequest["requestid"]
+    userid = servicerequest["userid"]
+    duration = servicerequest["duration"]
+
+    try:
+        iscreditreleased = requests.get("http://user-api/releasecredits?timecredit=" + str(duration) + "&userid=" + str(userid)).status_code == 200
+
+        if iscreditreleased:
+            ServiceRequestRepository.delete(requestid)
+            return jsonify({'issuccessful':'true', 'message':'Great! Your service request has been sent.'})
+        else:
+            return jsonify({'issuccessful':'false', 'message':'We could not send your request. Please try again.'})
+    except:
+        return jsonify({'issuccessful':'false', 'message':'We could not send your request somehow. Sorry...'})

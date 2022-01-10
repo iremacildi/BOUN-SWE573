@@ -32,6 +32,10 @@ class ServiceRequestRepository(db.Model):
         db.session.flush()
 
         return self
+
+    def delete(id):
+        ServiceRequestRepository.query.filter_by(id=id).delete()
+        db.session.commit()
     
     def getbyid(id):
         servicerequest = ServiceRequestRepository.query.filter_by(id=id).first()

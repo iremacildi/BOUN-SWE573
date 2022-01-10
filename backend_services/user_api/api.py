@@ -95,6 +95,21 @@ def hold_credits():
     except:
         return make_response(jsonify({'issuccessful':'false', 'message':'Error.'}), 500)
 
+@app.route('/releasecredits', methods=['GET'])
+def release_credits():
+    timecredit = request.args.get('timecredit', type=int)
+    userid = request.args.get('userid', type=int)
+
+    user = UserRepository.getbyid(userid)
+    user.timecreditonhold = user.timecreditonhold - int(timecredit)
+
+    try:
+        updateduser = user.update()
+        result = user_model.dump(updateduser)
+        return make_response(jsonify({'issuccessful':'true', 'message':'Successful.'}), 200)
+    except:
+        return make_response(jsonify({'issuccessful':'false', 'message':'Error.'}), 500)
+
 @app.route('/credittransaction', methods=['POST'])
 def credit_transaction():
     transactioninfo = json.loads(request.data)

@@ -10,6 +10,10 @@ const feedbackapi = axios.create({
     baseURL: 'http://localhost:83'
 })
 
+const attendanceapi = axios.create({
+    baseURL: 'http://localhost:84'
+})
+
 function PaperComponent(props) {
     return (
         <Draggable
@@ -26,6 +30,7 @@ const MyServiceRequests = (props) => {
     const now = moment(new Date()).format('DD/MM/yyyy HH:mm');
 
     const [serviceInfoOpen, setServiceInfoOpen] = useState(false);
+    const [cancelled, setCancelled] = useState(false);
 
     const handleComplete = (event) => {
         event.preventDefault();
@@ -44,8 +49,18 @@ const MyServiceRequests = (props) => {
         createFeedback(body);
     };
 
-    const handleCancel = () => {
+    const setCancelledFalse = () => {
+        setCancelled(false);
+    }
 
+    const handleCancel = () => {
+        const body = {
+            requestid: props.servicerequest.id,
+            userid: props.servicerequest.userid,
+            duration: props.servicerequest.service.duration
+        }
+
+        cancelRequest(body);
     };
 
     const handleClickServiceInfoOpen = () => {
@@ -63,6 +78,27 @@ const MyServiceRequests = (props) => {
                     (response) => {
                         if (response.status == 200) {
                             console.log(response)
+                        }
+                        else {
+                            console.log(response)
+                        }
+                    })
+                .catch(error => {
+                    console.log(error)
+                });
+        } catch (error) {
+            console.log(error)
+        }
+    };
+
+    const cancelRequest = (body) => {
+        try {
+            attendanceapi.put('/cancelservicerequest', body)
+                .then(
+                    (response) => {
+                        if (response.status == 200) {
+                            console.log(response)
+                            setCancelled(true)
                         }
                         else {
                             console.log(response)
@@ -130,14 +166,21 @@ const MyServiceRequests = (props) => {
                             disabled
                         >
                             Declined by Provider
-                        </Button> :
-                        <Button
-                            variant="contained"
-                            style={{ backgroundColor: "gray", width: '30%' }}
-                            onClick={handleCancel}
-                        >
-                            Cancel Request
-                        </Button>
+                        </Button> : cancelled ?
+                            <Button
+                                variant="contained"
+                                style={{ backgroundColor: "gray", width: '30%', color: "darkgray" }}
+                                disabled
+                            >
+                                Cancelled
+                            </Button> :
+                            <Button
+                                variant="contained"
+                                style={{ backgroundColor: "gray", width: '30%' }}
+                                onClick={handleCancel}
+                            >
+                                Cancel Request
+                            </Button>
                 }
                 <Dialog
                     open={serviceInfoOpen}
@@ -145,7 +188,7 @@ const MyServiceRequests = (props) => {
                     PaperComponent={PaperComponent}
                     aria-labelledby="draggable-dialog-title"
                 >
-                    <DetailService service={props.servicerequest.service} userid={props.userid} />
+                    <DetailService service={props.servicerequest.service} userid={props.userid} iscancelled={cancelled} setCancelledFalse={setCancelledFalse}/>
                 </Dialog>
             </ListItem>
         </Grid>
