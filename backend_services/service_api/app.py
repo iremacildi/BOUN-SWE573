@@ -17,7 +17,7 @@ POSTGRES_PASS = os.environ['POSTGRESPASS']
 POSTGRES_DB = os.environ['POSTGRESDB']
 USER_API = os.environ['USERAPIURL']
 SECRET_KEY = config.CONFIG['secretKey']
-DB_URL = 'postgresql+psycopg2://{user}:{pw}@{url}/{db}'.format(user=POSTGRES_USER, pw=POSTGRES_PASS, url=POSTGRES_URL, db=POSTGRES_DB)
+DB_URL = 'postgresql+psycopg2://{user}:{pw}@{url}/{db}'.format(user=POSTGRES_USER, pw=POSTGRES_PASS, url=POSTGRES_URL, db=POSTGRES_DB )
 
 app.config['SQLALCHEMY_DATABASE_URI'] = DB_URL
 app.config['SECRET_KEY'] = SECRET_KEY
