@@ -44,4 +44,9 @@ jobs:
             registry-username: ${{ secrets.REGISTRY_USERNAME }}
             registry-password: ${{ secrets.REGISTRY_PASSWORD }}
             name: user-api
+            secure-environment-variables: 
+              POSTGRESDB=${{ secrets.POSTGRESDB }} 
+              POSTGRESPASS=${{ secrets.POSTGRESPASS }} 
+              POSTGRESURL=${{ secrets.POSTGRESURL }} 
+              POSTGRESUSER=${{ secrets.POSTGRESUSER }}
             location: 'west us'
