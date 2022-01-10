@@ -21,6 +21,7 @@ jobs:
             username: ${{ secrets.REGISTRY_USERNAME }}
             password: ${{ secrets.REGISTRY_PASSWORD }}
         - run: |
+            cd backend_services/user_api
             docker build . -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/user-api:${{ github.sha }}
             docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/user-api:${{ github.sha }}
 
@@ -35,5 +36,3 @@ jobs:
             registry-password: ${{ secrets.REGISTRY_PASSWORD }}
             name: user-api
             location: 'west us'
-            folder: backend_services/user_api
-            dockerfile: ../../backend_services/user_api/Dockerfile
