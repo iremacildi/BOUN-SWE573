@@ -4,7 +4,7 @@ on:
       - dev
     paths:
       - backend_services/service_api/**
-name: User_API_Workflow_DEV
+name: Service_API_Workflow_DEV
 
 jobs:
     build-and-deploy:
