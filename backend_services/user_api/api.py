@@ -9,8 +9,8 @@ import json
 @app.after_request
 def middleware_for_response(response):
     response.headers.add('Access-Control-Allow-Credentials', 'true')
-    response.headers.add('Access-Control-Allow-Origin', 'http://communityplatform-dev.azurewebsites.net/')
-    response.headers.add('Access-Control-Allow-Headers', 'http://communityplatform-dev.azurewebsites.net/')
+    response.headers.add('Access-Control-Allow-Origin', 'http://communityplatform-dev.azurewebsites.net')
+    response.headers.add('Access-Control-Allow-Headers', 'http://communityplatform-dev.azurewebsites.net')
     return response
 
 @app.route("/")
