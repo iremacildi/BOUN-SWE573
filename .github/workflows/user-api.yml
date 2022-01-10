@@ -31,6 +31,11 @@ jobs:
             docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/user-api:${{ github.sha }}
             
         - name: 'Deploy to Azure Container Instances'
+          env:
+            POSTGRESDB: ${{ secrets.POSTGRESDB }}
+            POSTGRESPASS: ${{ secrets.POSTGRESPASS }}
+            POSTGRESURL: ${{ secrets.POSTGRESURL }}
+            POSTGRESUSER: ${{ secrets.POSTGRESUSER }}
           uses: 'azure/aci-deploy@v1'
           with:
             resource-group: ${{ secrets.RESOURCE_GROUP }}
@@ -40,7 +45,7 @@ jobs:
             registry-username: ${{ secrets.REGISTRY_USERNAME }}
             registry-password: ${{ secrets.REGISTRY_PASSWORD }}
             name: user-api
-            secure-environment-variables: 
+            environment-variables: 
               POSTGRESDB=${{ secrets.POSTGRESDB }} 
               POSTGRESPASS=${{ secrets.POSTGRESPASS }} 
               POSTGRESURL=${{ secrets.POSTGRESURL }} 
