@@ -47,7 +47,6 @@ def create_user():
     return jsonify(result)
 
 @app.route('/login', methods=['POST'])
-@cross_origin(methods=['POST'], supports_credentials=True, headers=['Content-Type', 'Authorization', 'Set-Cookie'], origin='http://communityplatform-dev.azurewebsites.net/')
 def login_user():
     credentials = json.loads(request.data)
     email = credentials["email"]
