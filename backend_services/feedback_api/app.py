@@ -33,4 +33,4 @@ ma = Marshmallow(app)
 from api import *
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=83)
+    app.run(host="0.0.0.0", port=80)
