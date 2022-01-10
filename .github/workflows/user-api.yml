@@ -29,6 +29,7 @@ jobs:
             cd backend_services/user_api
             docker build . -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/user-api:${{ github.sha }}
             docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/user-api:${{ github.sha }}
+            
         - name: 'Deploy to Azure Container Instances'
           uses: 'azure/aci-deploy@v1'
           with:
