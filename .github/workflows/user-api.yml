@@ -21,6 +21,12 @@ jobs:
         
         - name: 'Build and push image'
           uses: azure/docker-login@v1
+          env:
+            CI: true
+            POSTGRESDB: ${{ secrets.POSTGRESDB }}
+            POSTGRESPASS: ${{ secrets.POSTGRESPASS }}
+            POSTGRESURL: ${{ secrets.POSTGRESURL }}
+            POSTGRESUSER: ${{ secrets.POSTGRESUSER }}
           with:
             login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }}
             username: ${{ secrets.REGISTRY_USERNAME }}
