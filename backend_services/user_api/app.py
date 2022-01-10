@@ -21,7 +21,7 @@ POSTGRES_DB = os.environ['POSTGRESDB']
 SECRET_KEY = config.CONFIG['secretKey']
 JWT_ACCESS_LIFESPAN = config.CONFIG['jwtAccessLifespan']
 JWT_REFRESH_LIFESPAN = config.CONFIG['jwtRefreshLifespan']
-DB_URL = 'postgresql+psycopg2://{user}:{pw}@{url}/{db}'.format(user=POSTGRES_USER, pw=POSTGRES_PASS, url=POSTGRES_URL, db=POSTGRES_DB )
+DB_URL = 'postgresql+psycopg2://{user}:{pw}@{url}/{db}'.format(user=POSTGRES_USER, pw=POSTGRES_PASS, url=POSTGRES_URL, db=POSTGRES_DB)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = DB_URL
 app.config['SECRET_KEY'] = SECRET_KEY

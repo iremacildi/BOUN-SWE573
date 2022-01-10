@@ -41,7 +41,7 @@ jobs:
           uses: 'azure/aci-deploy@v1'
           with:
             resource-group: ${{ secrets.RESOURCE_GROUP }}
-            dns-name-label: ${{ secrets.ENVIRONMENT }}.eventapi
+            dns-name-label: ${{ secrets.ENVIRONMENT }}-eventapi
             image: ${{ secrets.REGISTRY_LOGIN_SERVER }}/event-api-${{ secrets.ENVIRONMENT }}:${{ github.sha }}
             registry-login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }}
             registry-username: ${{ secrets.REGISTRY_USERNAME }}
