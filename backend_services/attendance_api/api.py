@@ -93,12 +93,7 @@ def users_requests():
     servicesinfo = requests.post("http://service-api:81/multipleserviceinfo", data = json.dumps(serviceids)).json()
 
     for servicerequest in servicerequests:
-        servicerequest['servicename'] = [service['name'] for service in servicesinfo if service['id'] == servicerequest['serviceid']][0]
-        # servicerequest['isended'] = [(datetime.datetime(service['startdate']) < datetime.datetime.now()) for service in servicesinfo if service['id'] == servicerequest['serviceid']][0]
-        servicerequest['isended'] = [service['startdate'] for service in servicesinfo if service['id'] == servicerequest['serviceid']][0]
-        # servicerequest['serviceenddate'] = [datetime.datetime(service['startdate']) + datetime.timedelta(hours=int(service['duration'])) for service in servicesinfo if service['id'] == servicerequest['serviceid']][0]
-        servicerequest['serviceduration'] = [service['duration'] for service in servicesinfo if service['id'] == servicerequest['serviceid']][0]
-        servicerequest['providerid'] = [service['provideruserid'] for service in servicesinfo if service['id'] == servicerequest['serviceid']][0]
+        servicerequest['service'] = [service for service in servicesinfo if service['id'] == servicerequest['serviceid']][0]
 
     return jsonify(servicerequests)
 

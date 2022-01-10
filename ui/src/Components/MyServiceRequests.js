@@ -1,23 +1,31 @@
-import { useEffect, useState, Fragment } from 'react'
-import { Accordion, AccordionDetails, Box, Button, AccordionSummary, Grid, Paper, Typography, ListItem, ListItemText, Dialog, Divider, List, TextField } from '@mui/material';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import Header from '../Components/Header';
+import { useState } from 'react'
+import { Box, Button, IconButton, Paper, Grid, ListItem, ListItemText, TextField, Dialog } from '@mui/material';
 import axios from 'axios';
-import { useLocation } from 'react-router-dom';
-import MyServicesRequests from './MyServicesRequests';
-import Draggable from 'react-draggable';
 import moment from 'moment';
-import { TextFieldsSharp } from '@mui/icons-material';
+import Draggable from 'react-draggable';
+import DetailService from './DetailService';
+import InfoIcon from '@mui/icons-material/Info';
 
 const feedbackapi = axios.create({
     baseURL: 'http://localhost:83'
 })
 
+function PaperComponent(props) {
+    return (
+        <Draggable
+            handle="#draggable-dialog-title"
+            cancel={'[class*="MuiDialogContent-root"]'}
+        >
+            <Paper {...props} />
+        </Draggable>
+    );
+}
+
 const MyServiceRequests = (props) => {
-    const servicedate = moment(props.servicerequest.isended).format('DD/MM/yyyy HH:mm');
+    const servicedate = moment(props.servicerequest.service.startdate).format('DD/MM/yyyy HH:mm');
     const now = moment(new Date()).format('DD/MM/yyyy HH:mm');
 
-    const [open, setOpen] = useState(false);
+    const [serviceInfoOpen, setServiceInfoOpen] = useState(false);
 
     const handleComplete = (event) => {
         event.preventDefault();
@@ -29,15 +37,23 @@ const MyServiceRequests = (props) => {
             comment: data.get('comment'),
             rate: data.get('rate'),
             isgivenbyprovider: false,
-            provideruserid: props.servicerequest.providerid,
-            duration: props.servicerequest.serviceduration
+            provideruserid: props.servicerequest.service.provideruserid,
+            duration: props.servicerequest.service.duration
         }
 
         createFeedback(body);
     };
 
     const handleCancel = () => {
-        setOpen(false);
+
+    };
+
+    const handleClickServiceInfoOpen = () => {
+        setServiceInfoOpen(true);
+    };
+
+    const handleClickServiceInfoClose = () => {
+        setServiceInfoOpen(false);
     };
 
     const createFeedback = (body) => {
@@ -63,9 +79,12 @@ const MyServiceRequests = (props) => {
     return (
         <Grid container item lg={16}>
             <ListItem>
+                <IconButton onClick={handleClickServiceInfoOpen}>
+                    <InfoIcon />
+                </IconButton>
                 <Grid container item lg={4}>
                     <ListItemText
-                        primary={props.servicerequest.servicename}
+                        primary={props.servicerequest.service.name}
                     />
                 </Grid>
                 {props.servicerequest.isapproved & servicedate <= now ?
@@ -120,6 +139,14 @@ const MyServiceRequests = (props) => {
                             Cancel Request
                         </Button>
                 }
+                <Dialog
+                    open={serviceInfoOpen}
+                    onClose={handleClickServiceInfoClose}
+                    PaperComponent={PaperComponent}
+                    aria-labelledby="draggable-dialog-title"
+                >
+                    <DetailService service={props.servicerequest.service} userid={props.userid} />
+                </Dialog>
             </ListItem>
         </Grid>
     );

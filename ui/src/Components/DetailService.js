@@ -91,10 +91,11 @@ const DetailService = (props) => {
         <div className="detail-service">
             <DialogTitle style={{ cursor: 'move' }} id="draggable-dialog-title">
                 {props.service.name}
-                <Typography variant="body2" color="text.secondary">
-                    by {props.service.providerusername}
-                    {/* add profile link on providerusername */}
-                </Typography>
+                {props.service.providerusername ?
+                    <Typography variant="body2" color="text.secondary">
+                        by {props.service.providerusername}
+                        {/* add profile link on providerusername */}
+                    </Typography> : null}
             </DialogTitle>
             <DialogContent>
                 <DialogContentText>
@@ -123,25 +124,27 @@ const DetailService = (props) => {
                     anchorOrigin={{ vertical, horizontal }}
                     style={{ marginBottom: '55px', width: '500px' }}
                 />
-                {props.userid == props.service.provideruserid ? <Button
+                {props.service.providerusername ?
+                    props.userid == props.service.provideruserid ? <Button
                         fullWidth
                         variant="contained"
                         sx={{ mt: 3, mb: 2 }}
-                        style={{ backgroundColor: "gray", color:"white" }}
+                        style={{ backgroundColor: "gray", color: "white" }}
                         disabled
                     >
                         You are the provider of this service.
-                    </Button> 
-                    :
-                    <Button
-                        fullWidth
-                        variant="contained"
-                        sx={{ mt: 3, mb: 2 }}
-                        style={{ backgroundColor: "darkslategray" }}
-                        onClick={handleservicerequest}
-                    >
-                        Request Service
-                    </Button>}
+                    </Button>
+                        :
+                        <Button
+                            fullWidth
+                            variant="contained"
+                            sx={{ mt: 3, mb: 2 }}
+                            style={{ backgroundColor: "darkslategray" }}
+                            onClick={handleservicerequest}
+                        >
+                            Request Service
+                        </Button>
+                    : null}
             </DialogContent>
         </div>
     )
