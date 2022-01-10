@@ -29,7 +29,7 @@ app.config['JWT_ACCESS_LIFESPAN'] = JWT_ACCESS_LIFESPAN
 app.config['JWT_REFRESH_LIFESPAN'] = JWT_REFRESH_LIFESPAN
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-cors.init_app(app, resources={r"/*": {"origins": "*"}})
+cors.init_app(app, resources={r"/*": {"origins": "http://communityplatform-dev.azurewebsites.net"}})
 ma = Marshmallow(app)
 db.init_app(app)
 guard.init_app(app, UserRepository)
