@@ -3,7 +3,7 @@ on:
     branches:
       - dev
     paths:
-      - backend_services/attendace_api/**
+      - backend_services/attendance_api/**
 name: Attendance_API_Workflow_DEV
 
 jobs:
