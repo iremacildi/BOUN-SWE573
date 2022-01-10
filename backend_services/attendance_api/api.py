@@ -26,14 +26,14 @@ def request_service():
     if requestcountforsameservice > 0:
         return jsonify({'issuccessful':'false', 'message':'You have sent request for this service before. Please check My Services page.'})
 
-    userinfo = requests.get("http://user-api/userinfo?id=" + str(userid)).json()
+    userinfo = requests.get(app.config['USER_API'] + "/userinfo?id=" + str(userid)).json()
 
     if (int(userinfo['timecredit']) - int(userinfo['timecreditonhold'])) < int(servicetimecredit):
         return jsonify({'issuccessful':'false', 'message':'You need more time credit for this service.'})
 
     servicerequestrepo = ServiceRequestRepository(serviceid, userid, providerid, False, False, True, False)
     try:
-        iscreditholded = requests.get("http://user-api/holdcredits?timecredit=" + str(servicetimecredit) + "&userid=" + str(userid)).status_code == 200
+        iscreditholded = requests.get(app.config['USER_API'] + "/holdcredits?timecredit=" + str(servicetimecredit) + "&userid=" + str(userid)).status_code == 200
 
         if iscreditholded:
             newservicerequest = servicerequestrepo.add()
@@ -94,7 +94,7 @@ def users_requests():
     
     servicerequests = [service_request_model.dump(x) for x in servicerequests]
         
-    servicesinfo = requests.post("http://service-api:81/multipleserviceinfo", data = json.dumps(serviceids)).json()
+    servicesinfo = requests.post(app.config['SERVICE_API'] + "/multipleserviceinfo", data = json.dumps(serviceids)).json()
 
     for servicerequest in servicerequests:
         servicerequest['service'] = [service for service in servicesinfo if service['id'] == servicerequest['serviceid']][0]
@@ -110,7 +110,7 @@ def services_requests():
 
     servicerequests = [service_request_model.dump(x) for x in servicerequests]
 
-    usersinfo = requests.post("http://user-api/multipleuserinfo", data = json.dumps(userids)).json()
+    usersinfo = requests.post(app.config['USER_API'] + "/multipleuserinfo", data = json.dumps(userids)).json()
 
     for servicerequest in servicerequests:
         servicerequest['username'] = [user['username'] for user in usersinfo if user['id'] == servicerequest['userid']][0]
@@ -125,7 +125,7 @@ def cancel_request():
     duration = servicerequest["duration"]
 
     try:
-        iscreditreleased = requests.get("http://user-api/releasecredits?timecredit=" + str(duration) + "&userid=" + str(userid)).status_code == 200
+        iscreditreleased = requests.get(app.config['USER_API'] + "/releasecredits?timecredit=" + str(duration) + "&userid=" + str(userid)).status_code == 200
 
         if iscreditreleased:
             ServiceRequestRepository.delete(requestid)
