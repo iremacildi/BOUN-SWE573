@@ -3,14 +3,11 @@ from app import app, guard
 from data.user_repository import UserRepository
 from model.user_model import user_model
 from flask_praetorian import auth_required, current_user
-from flask_cors import cross_origin
 import json
 
 @app.after_request
 def middleware_for_response(response):
     response.headers.add('Access-Control-Allow-Credentials', 'true')
-    response.headers.add('Access-Control-Allow-Origin', 'http://communityplatform-dev.azurewebsites.net')
-    response.headers.add('Access-Control-Allow-Headers', 'http://communityplatform-dev.azurewebsites.net')
     return response
 
 @app.route("/")
@@ -56,9 +53,7 @@ def login_user():
     token = guard.encode_jwt_token(user)
     result = {'access_token': token}
     resp = make_response(jsonify(result), 200)
-    resp.set_cookie('access_token', guard.encode_jwt_token(user), httponly=True)
-    # resp.set_cookie('access_token', guard.encode_jwt_token(user), httponly=True, samesite="None", secure=True)
-    # resp.headers.add('Set-Cookie','access_token=' + guard.encode_jwt_token(user) + '; SameSite=None; Secure')
+    resp.set_cookie('access_token', guard.encode_jwt_token(user))
     return resp
 
 @app.route('/logout', methods=['POST'])
