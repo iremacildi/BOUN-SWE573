@@ -27,8 +27,8 @@ jobs:
             password: ${{ secrets.REGISTRY_PASSWORD }}
         - run: |
             cd backend_services/user_api
-            docker build . -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/user-api2:${{ github.sha }}
-            docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/user-api2:${{ github.sha }}
+            docker build . -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/user-api:${{ github.sha }}
+            docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/user-api:${{ github.sha }}
         - name: 'Deploy to Azure Container Instances'
           env:
             POSTGRESDB: ${{ secrets.POSTGRESDB }}
@@ -39,9 +39,9 @@ jobs:
           with:
             resource-group: ${{ secrets.RESOURCE_GROUP }}
             dns-name-label: ${{ secrets.RESOURCE_GROUP }}${{ github.run_number }}
-            image: ${{ secrets.REGISTRY_LOGIN_SERVER }}/user-api2:${{ github.sha }}
+            image: ${{ secrets.REGISTRY_LOGIN_SERVER }}/user-api:${{ github.sha }}
             registry-login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }}
             registry-username: ${{ secrets.REGISTRY_USERNAME }}
             registry-password: ${{ secrets.REGISTRY_PASSWORD }}
-            name: user-api2
+            name: user-api
             location: 'west us'
