@@ -3,7 +3,7 @@ on:
     branches:
       - dev
     paths:
-      - ui/src/**
+      - ui/**
   workflow_dispatch:
 
 name: Frontend_Workflow_DEV

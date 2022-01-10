@@ -53,7 +53,8 @@ def login_user():
     token = guard.encode_jwt_token(user)
     result = {'access_token': token}
     resp = make_response(jsonify(result), 200)
-    resp.set_cookie('access_token', guard.encode_jwt_token(user), httponly=True, samesite="None", secure=True)
+    # resp.set_cookie('access_token', guard.encode_jwt_token(user), httponly=True, samesite="None", secure=True)
+    resp.headers.add('Set-Cookie','access_token=' + guard.encode_jwt_token(user) + '; SameSite=None; Secure')
     return resp
 
 @app.route('/logout', methods=['POST'])
