@@ -4,10 +4,10 @@ on:
       - dev
     paths:
       - backend_services/user_api/**
-name: User_API_Workflow
+name: User_API_Workflow_DEV
 
 jobs:
-    build-and-deploy-userapi-dev:
+    build-and-deploy:
         runs-on: ubuntu-latest
         environment: dev
         steps:
