@@ -38,7 +38,7 @@ def service_info():
 
     service = ServiceRepository.getbyid(id)
 
-    userinfo = requests.get("http://user-api/userinfo?id=" + str(service.provideruserid)).json()
+    userinfo = requests.get(app.config['USER_API'] + "/userinfo?id=" + str(service.provideruserid)).json()
 
     servicedetail = ServiceDetail(id, service.name, service.description, service.pictureurl, service.location, service.startdate,
     service.duration, service.capacity, service.provideruserid, userinfo['username'], service.isactive)
@@ -65,7 +65,7 @@ def search_service():
 
     services = [servicedetail_model.dump(x) for x in services]
 
-    providersinfo = requests.post("http://user-api/multipleuserinfo", data = json.dumps(provideruserids)).json()
+    providersinfo = requests.post(app.config['USER_API'] + "/multipleuserinfo", data = json.dumps(provideruserids)).json()
 
     for service in services:
         service['providerusername'] = [provider['username'] for provider in providersinfo if provider['id'] == service['provideruserid']][0]
@@ -79,7 +79,7 @@ def get_services():
 
     services = ServiceRepository.getbyprovideruserid(providerid)
 
-    userinfo = requests.get("http://user-api/userinfo?id=" + str(providerid)).json()
+    userinfo = requests.get(app.config['USER_API'] + "/userinfo?id=" + str(providerid)).json()
 
     services = [servicedetail_model.dump(x) for x in services]
 
@@ -97,7 +97,7 @@ def get_allservices():
 
     services = [servicedetail_model.dump(x) for x in services]
 
-    providersinfo = requests.post("http://user-api/multipleuserinfo", data = json.dumps(provideruserids)).json()
+    providersinfo = requests.post(app.config['USER_API'] + "/multipleuserinfo", data = json.dumps(provideruserids)).json()
 
     for service in services:
         service['providerusername'] = [provider['username'] for provider in providersinfo if provider['id'] == service['provideruserid']][0]
