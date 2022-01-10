@@ -31,6 +31,14 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+    - name: create env file
+      run: |
+        touch .env
+        echo REACT_APP_USERAPI =${{ secrets.REACT_APP_USERAPI }} >> .env
+        echo REACT_APP_SERVICEAPI =${{ secrets.REACT_APP_SERVICEAPI }} >> .env
+        echo REACT_APP_EVENTAPI =${{ secrets.REACT_APP_EVENTAPI }} >> .env
+        echo REACT_APP_FEEDBACKAPI =${{ secrets.REACT_APP_FEEDBACKAPI }} >> .env
+        echo REACT_APP_ATTENDANCEAPI =${{ secrets.REACT_APP_ATTENDANCEAPI }} >> .env
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v2
       with:
