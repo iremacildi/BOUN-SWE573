@@ -9,8 +9,8 @@ import json
 @app.after_request
 def middleware_for_response(response):
     response.headers.add('Access-Control-Allow-Credentials', 'true')
-    response.headers.add('Access-Control-Allow-Origin', 'http://communityplatform-dev.azurewebsites.net')
-    response.headers.add('Access-Control-Allow-Headers', 'http://communityplatform-dev.azurewebsites.net')
+    response.headers.add('Access-Control-Allow-Origin', 'http://communityplatform-dev.azurewebsites.net/')
+    response.headers.add('Access-Control-Allow-Headers', 'http://communityplatform-dev.azurewebsites.net/')
     return response
 
 @app.route("/")
@@ -47,7 +47,7 @@ def create_user():
     return jsonify(result)
 
 @app.route('/login', methods=['POST'])
-@cross_origin(methods=['POST'], supports_credentials=True, headers=['Content-Type', 'Authorization', 'Set-Cookie'], origin='http://communityplatform-dev.azurewebsites.net')
+@cross_origin(methods=['POST'], supports_credentials=True, headers=['Content-Type', 'Authorization', 'Set-Cookie'], origin='http://communityplatform-dev.azurewebsites.net/')
 def login_user():
     credentials = json.loads(request.data)
     email = credentials["email"]
