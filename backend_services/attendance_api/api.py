@@ -22,6 +22,10 @@ def request_service():
     providerid = servicerequest["providerid"]
     servicetimecredit = servicerequest["servicetimecredit"]
 
+    requestcountforsameservice = len(ServiceRequestRepository.diduserrequestbefore(int(userid), int(serviceid)))
+    if requestcountforsameservice > 0:
+        return jsonify({'issuccessful':'false', 'message':'You have sent request for this service before. Please check My Services page.'})
+
     userinfo = requests.get("http://user-api/userinfo?id=" + str(userid)).json()
 
     if (int(userinfo['timecredit']) - int(userinfo['timecreditonhold'])) < int(servicetimecredit):
@@ -125,8 +129,8 @@ def cancel_request():
 
         if iscreditreleased:
             ServiceRequestRepository.delete(requestid)
-            return jsonify({'issuccessful':'true', 'message':'Great! Your service request has been sent.'})
+            return jsonify({'issuccessful':'true', 'message':'Your service request has been cancelled.'})
         else:
-            return jsonify({'issuccessful':'false', 'message':'We could not send your request. Please try again.'})
+            return jsonify({'issuccessful':'false', 'message':'We could not send your cancel request. Please try again.'})
     except:
-        return jsonify({'issuccessful':'false', 'message':'We could not send your request somehow. Sorry...'})
+        return jsonify({'issuccessful':'false', 'message':'We could not send your cancel request somehow. Sorry...'})

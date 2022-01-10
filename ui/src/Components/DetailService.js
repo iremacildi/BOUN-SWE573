@@ -46,7 +46,6 @@ const DetailService = (props) => {
                             setMessage(response.data.message)
                             setOpen(true)
                             console.log(response)
-                            // navigate("../myservices", { replace: true }); myservices'a veya servicedetail'a yönlendirebilir
                         }
                         else {
                             setMessage(response.data.message)

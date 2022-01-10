@@ -1,4 +1,5 @@
 from data.db_manager import db
+from sqlalchemy import and_
 
 class ServiceRequestRepository(db.Model):
     __tablename__ = "servicerequest"
@@ -56,3 +57,8 @@ class ServiceRequestRepository(db.Model):
         servicerequests = ServiceRequestRepository.query.filter_by(providerid=providerid).all()
 
         return servicerequests
+
+    def diduserrequestbefore(userid, serviceid):
+        events = ServiceRequestRepository.query.filter(and_(ServiceRequestRepository.userid==userid, ServiceRequestRepository.serviceid==serviceid)).all()
+
+        return events
