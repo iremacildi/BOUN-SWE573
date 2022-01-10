@@ -20,6 +20,8 @@ env:
 
 jobs:
   build:
+    environment:
+      name: dev
     runs-on: ubuntu-latest
     defaults:
       run:
