@@ -4,8 +4,9 @@ on:
       - dev
     paths:
       - ui/src/**
-name: Frontend_Workflow_DEV
   workflow_dispatch:
+
+name: Frontend_Workflow_DEV
 
 env:
   AZURE_WEBAPP_NAME: communityplatform-dev    # set this to your application's name
@@ -30,7 +31,7 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
-        cache-dependency-path: '**/package-lock.json'
+        cache-dependency-path: 'ui/package-lock.json'
     - run: npm ci
       working-directory: ui
     - run: npm i -g npm@latest
