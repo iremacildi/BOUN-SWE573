@@ -7,11 +7,11 @@ import DetailService from './DetailService';
 import InfoIcon from '@mui/icons-material/Info';
 
 const feedbackapi = axios.create({
-    baseURL: 'http://localhost:83'
+    baseURL: process.env.REACT_APP_FEEDBACKAPI
 })
 
 const attendanceapi = axios.create({
-    baseURL: 'http://localhost:84'
+    baseURL: process.env.REACT_APP_ATTENDANCEAPI
 })
 
 function PaperComponent(props) {

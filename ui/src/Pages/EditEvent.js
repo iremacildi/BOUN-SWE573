@@ -19,12 +19,12 @@ import moment from 'moment';
 import EventIcon from '@mui/icons-material/Event';
 
 const userapi = axios.create({
-    baseURL: 'http://localhost',
+    baseURL: process.env.REACT_APP_USERAPI,
     withCredentials: true
 })
 
 const eventapi = axios.create({
-    baseURL: 'http://localhost:82'
+    baseURL: process.env.REACT_APP_EVENTAPI
 })
 
 userapi.interceptors.request.use(

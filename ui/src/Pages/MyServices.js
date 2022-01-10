@@ -8,11 +8,11 @@ import MyServicesListItem from '../Components/MyServicesListItem';
 import MyServiceRequests from '../Components/MyServiceRequests';
 
 const serviceapi = axios.create({
-    baseURL: 'http://localhost:81'
+    baseURL: process.env.REACT_APP_SERVICEAPI
 })
 
 const attendanceapi = axios.create({
-    baseURL: 'http://localhost:84'
+    baseURL: process.env.REACT_APP_ATTENDANCEAPI
 })
 
 const MyServices = () => {

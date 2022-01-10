@@ -19,12 +19,12 @@ import CloseIcon from '@mui/icons-material/Close';
 import moment from 'moment';
 
 const userapi = axios.create({
-    baseURL: 'http://localhost',
+    baseURL: process.env.REACT_APP_USERAPI,
     withCredentials: true
 })
 
 const serviceapi = axios.create({
-    baseURL: 'http://localhost:81'
+    baseURL: process.env.REACT_APP_SERVICEAPI
 })
 
 userapi.interceptors.request.use(

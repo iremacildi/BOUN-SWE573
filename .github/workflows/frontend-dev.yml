@@ -9,9 +9,14 @@ on:
 name: Frontend_Workflow_DEV
 
 env:
-  AZURE_WEBAPP_NAME: communityplatform-dev    # set this to your application's name
-  AZURE_WEBAPP_PACKAGE_PATH: '.'      # set this to the path to your web app project, defaults to the repository root
-  NODE_VERSION: '14.18.2'                # set this to the node version to use
+  AZURE_WEBAPP_NAME: communityplatform-dev
+  AZURE_WEBAPP_PACKAGE_PATH: '.'
+  NODE_VERSION: '14.18.2'
+  REACT_APP_USERAPI: ${{ secrets.USERAPIURL }}
+  REACT_APP_SERVICEAPI: ${{ secrets.SERVICEAPIURL }}
+  REACT_APP_EVENTAPI: ${{ secrets.EVENTAPIURL }}
+  REACT_APP_FEEDBACKAPI: ${{ secrets.FEEDBACKAPIURL }}
+  REACT_APP_ATTENDANCEAPI: ${{ secrets.ATTENDANCEAPIURL }}
 
 jobs:
   build:
