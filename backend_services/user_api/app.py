@@ -6,6 +6,7 @@ from flask_marshmallow import Marshmallow
 from flask_praetorian import Praetorian
 from data.db_manager import db
 from data.user_repository import UserRepository 
+import os
 
 app = Flask(__name__)
 app_context = app.app_context()
@@ -13,10 +14,10 @@ app_context.push()
 cors = CORS()
 guard = Praetorian()
 
-POSTGRES_URL = config.CONFIG['postgresUrl']
-POSTGRES_USER = config.CONFIG['postgresUser']
-POSTGRES_PASS = config.CONFIG['postgresPass']
-POSTGRES_DB = config.CONFIG['postgresDb']
+POSTGRES_URL = os.environ['POSTGRESURL']
+POSTGRES_USER = os.environ['POSTGRESUSER']
+POSTGRES_PASS = os.environ['POSTGRESPASS']
+POSTGRES_DB = os.environ['POSTGRESDB']
 SECRET_KEY = config.CONFIG['secretKey']
 JWT_ACCESS_LIFESPAN = config.CONFIG['jwtAccessLifespan']
 JWT_REFRESH_LIFESPAN = config.CONFIG['jwtRefreshLifespan']
