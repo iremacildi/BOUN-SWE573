@@ -2,6 +2,8 @@ on:
   push:
     branches:
       - dev
+    paths:
+      - backend_services/user_api/**
 name: User_API_Workflow
 
 jobs:
