@@ -38,4 +38,4 @@ jobs:
             name: user-api
             location: 'west us'
             folder: backend_services/user_api
-            dockerfile: ../../backend_services/user_api/Dockerfile
+            dockerfile: backend_services/user_api/Dockerfile
