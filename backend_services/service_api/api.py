@@ -25,7 +25,7 @@ def create_service():
     capacity = service["capacity"]
     provideruserid = service["provideruserid"]
 
-    servicerepo = ServiceRepository(name, description, pictureurl, location, startdate, duration, capacity, provideruserid, True )
+    servicerepo = ServiceRepository(name, description, pictureurl, location, startdate, duration, capacity, provideruserid, True)
     newservice = servicerepo.add()
     result = service_model.dump(newservice)
 
