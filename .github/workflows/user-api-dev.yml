@@ -45,7 +45,7 @@ jobs:
             registry-login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }}
             registry-username: ${{ secrets.REGISTRY_USERNAME }}
             registry-password: ${{ secrets.REGISTRY_PASSWORD }}
-            name: app-with-ssl
+            name: user-api-${{ secrets.ENVIRONMENT }}
             environment-variables: 
               POSTGRESDB=${{ secrets.POSTGRESDB }} 
               POSTGRESPASS=${{ secrets.POSTGRESPASS }} 
