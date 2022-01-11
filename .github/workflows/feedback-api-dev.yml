@@ -37,7 +37,7 @@ jobs:
             POSTGRESPASS: ${{ secrets.POSTGRESPASS }}
             POSTGRESURL: ${{ secrets.POSTGRESURL }}
             POSTGRESUSER: ${{ secrets.POSTGRESUSER }}
-            USERAPIURL: ${{ secrets.USERAPIURL }}
+            USERAPIURL: ${{ secrets.USERAPIURL_HTTP }}
           uses: 'azure/aci-deploy@v1'
           with:
             resource-group: ${{ secrets.RESOURCE_GROUP }}
@@ -52,5 +52,5 @@ jobs:
               POSTGRESPASS=${{ secrets.POSTGRESPASS }} 
               POSTGRESURL=${{ secrets.POSTGRESURL }} 
               POSTGRESUSER=${{ secrets.POSTGRESUSER }}
-              USERAPIURL=${{ secrets.USERAPIURL }}
+              USERAPIURL=${{ secrets.USERAPIURL_HTTP }}
             location: 'east us'
