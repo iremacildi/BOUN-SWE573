@@ -19,12 +19,12 @@ import CloseIcon from '@mui/icons-material/Close';
 import moment from 'moment';
 
 const userapi = axios.create({
-    baseURL: process.env.REACT_APP_USERAPI,
+    baseURL: 'http://localhost',
     withCredentials: true
 })
 
 const serviceapi = axios.create({
-    baseURL: process.env.REACT_APP_SERVICEAPI
+    baseURL: 'http://localhost:81',
 })
 
 userapi.interceptors.request.use(
@@ -63,7 +63,8 @@ export default function EditService() {
             capacity: data.get('capacity'),
             provideruserid: userInfo.id,
             pictureurl: 'tea',
-            location: 'Kadikoy, Istanbul'
+            location: 'Kadikoy, Istanbul',
+            tag: data.get('tag')
         }
 
         console.log(body)
@@ -205,6 +206,17 @@ export default function EditService() {
                                             fullWidth
                                             required
                                             rows={4}
+                                        />
+                                    </Grid>
+                                </Grid>
+                                <Grid container item xs={12} spacing={1} direction="row" justifyContent="space-between" alignItems="center">
+                                    <Grid item xs={12}>
+                                        <TextField
+                                            name="tag"
+                                            required
+                                            fullWidth
+                                            id="tag"
+                                            label="Tag"
                                         />
                                     </Grid>
                                 </Grid>

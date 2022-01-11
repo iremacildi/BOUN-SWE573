@@ -15,7 +15,7 @@ import moment from 'moment';
 import axios from 'axios';
 
 const attendanceapi = axios.create({
-    baseURL: process.env.REACT_APP_ATTENDANCEAPI
+    baseURL: 'http://localhost:84',
 })
 
 const DetailService = (props) => {

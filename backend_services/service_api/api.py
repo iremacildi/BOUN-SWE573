@@ -1,4 +1,5 @@
 from flask import request, jsonify, make_response
+from sqlalchemy.sql.expression import null
 from app import app
 from data.service_repository import ServiceRepository
 from model.service_model import service_model
@@ -24,8 +25,9 @@ def create_service():
     duration = service["duration"]
     capacity = service["capacity"]
     provideruserid = service["provideruserid"]
+    tag = service["tag"]
 
-    servicerepo = ServiceRepository(name, description, pictureurl, location, startdate, duration, capacity, provideruserid, True)
+    servicerepo = ServiceRepository(name, description, pictureurl, location, startdate, duration, capacity, provideruserid, True, tag)
     newservice = servicerepo.add()
     result = service_model.dump(newservice)
 
@@ -38,10 +40,19 @@ def service_info():
 
     service = ServiceRepository.getbyid(id)
 
-    userinfo = requests.get(app.config['USER_API'] + "/userinfo?id=" + str(service.provideruserid)).json()
+    userinfo = requests.get('http://localhost' + "/userinfo?id=" + str(service.provideruserid)).json()
+
+    #get tag info from from wikipedia
+    tagInfo = null
+    try:
+        wikiResponse = requests.get(app.config['WikiUrl'] + str(service.tag)).json()
+        for obj in wikiResponse['query']['pages']:
+            tagInfo = wikiResponse['query']['pages'][str(obj)]['extract']
+    except:
+        tagInfo = null
 
     servicedetail = ServiceDetail(id, service.name, service.description, service.pictureurl, service.location, service.startdate,
-    service.duration, service.capacity, service.provideruserid, userinfo['username'], service.isactive)
+    service.duration, service.capacity, service.provideruserid, userinfo['username'], service.isactive, service.tag, tagInfo)
 
     result = servicedetail_model.dump(servicedetail)
     return jsonify(result)
@@ -65,7 +76,7 @@ def search_service():
 
     services = [servicedetail_model.dump(x) for x in services]
 
-    providersinfo = requests.post(app.config['USER_API'] + "/multipleuserinfo", data = json.dumps(provideruserids)).json()
+    providersinfo = requests.post('http://localhost' + "/multipleuserinfo", data = json.dumps(provideruserids)).json()
 
     for service in services:
         service['providerusername'] = [provider['username'] for provider in providersinfo if provider['id'] == service['provideruserid']][0]

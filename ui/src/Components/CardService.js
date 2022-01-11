@@ -26,6 +26,7 @@ function PaperComponent(props) {
 
 const CardService = (props) => {
     const [open, setOpen] = useState(false);
+    const [openInfo, setOpenInfo] = useState(false);
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -34,6 +35,16 @@ const CardService = (props) => {
     const handleClose = () => {
         setOpen(false);
     };
+
+    const handleCloseInfo = () => {
+        setOpen(false);
+    };
+
+    const handleShowMoreInfo = () => {
+        setOpen(false);
+    };
+
+
 
     return (
         <div className="card-service" style={{ maxWidth: '350px' }}>
@@ -50,18 +61,31 @@ const CardService = (props) => {
                 <CardMedia
                     component="img"
                     height="194"
-                    image={props.service.pictureurl == 'plants' ? plants:
-                props.service.pictureurl == 'rembrandt' ? rembrandt : 
-                props.service.pictureurl == 'cappadocia' ? cappadocia :
-                props.service.pictureurl == 'forestimage' ? forestimage :
-                props.service.pictureurl == 'historical' ? historical : 
-                props.service.pictureurl == 'tea' ? tea : null}
+                    image={props.service.pictureurl == 'plants' ? plants :
+                        props.service.pictureurl == 'rembrandt' ? rembrandt :
+                            props.service.pictureurl == 'cappadocia' ? cappadocia :
+                                props.service.pictureurl == 'forestimage' ? forestimage :
+                                    props.service.pictureurl == 'historical' ? historical :
+                                        props.service.pictureurl == 'tea' ? tea : null}
                     alt="service-image"
                 />
                 <CardContent>
                     <Typography variant="body2" color="text.secondary">
                         Location: Istanbul
                     </Typography>
+                </CardContent>
+                <CardContent>
+                    <Typography variant="body2" color="text.secondary">
+                        Tag: {props.service.tag}
+                    </Typography>
+                    <Button
+                        variant="contained"
+                        sx={{ mt: 3, mb: 2 }}
+                        style={{ backgroundColor: "darkslategray", width: '30%' }}
+                        onClick={handleShowMoreInfo}
+                    >
+                        show more information
+                    </Button>
                 </CardContent>
                 <CardActions disableSpacing>
                     <IconButton onClick={handleClickOpen}>
@@ -74,7 +98,15 @@ const CardService = (props) => {
                     PaperComponent={PaperComponent}
                     aria-labelledby="draggable-dialog-title"
                 >
-                    <DetailService service={props.service} userid={props.userid}/>
+                    <DetailService service={props.service} userid={props.userid} />
+                </Dialog>
+                <Dialog
+                    open={openInfo}
+                    onClose={handleCloseInfo}
+                    PaperComponent={PaperComponent}
+                    aria-labelledby="draggable-dialog-title"
+                >
+                    {props.service.taginfo}
                 </Dialog>
             </Card>
         </div>
