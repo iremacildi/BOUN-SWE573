@@ -1,0 +1,58 @@
+api-version: 2019-12-01
+location: westus2
+name: feedback-api-dev2
+properties:
+  containers:
+  - name: nginx-with-ssl
+    properties:
+      image: mcr.microsoft.com/oss/nginx/nginx:1.15.5-alpine
+      ports:
+      - port: 443
+        protocol: TCP
+      resources:
+        requests:
+          cpu: 1.0
+          memoryInGB: 1.5
+      volumeMounts:
+      - name: nginx-config
+        mountPath: /etc/nginx
+  - name: feedback-api-dev
+    properties:
+      environmentVariables:
+        - name: POSTGRESDB
+          value: ***
+        - name: POSTGRESPASS
+          value: ***
+        - name: POSTGRESURL
+          value: ***
+        - name: POSTGRESUSER
+          value: ***
+        - name: USERAPIURL
+          value: http://dev-userapi.eastus.azurecontainer.io
+      image: ***
+      ports:
+      - port: 80
+        protocol: TCP
+      resources:
+        requests:
+          cpu: 1.0
+          memoryInGB: 1.5
+  volumes:
+  - secret:
+      ssl.crt: ***
+      ssl.key: ***
+      nginx.conf: ***
+    name: nginx-config
+  ipAddress:
+    ports:
+    - port: 443
+      protocol: TCP
+    dnsNameLabel: dev-feedbackapi
+    type: Public
+  osType: Linux
+  imageRegistryCredentials: # Credentials to pull a private image
+    - server: ***
+      username: ***
+      password: ***
+tags: null
+type: Microsoft.ContainerInstance/containerGroups
