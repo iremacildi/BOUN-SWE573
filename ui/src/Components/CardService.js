@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Card, CardHeader, Avatar, IconButton, CardMedia, CardContent, Typography, CardActions } from "@mui/material";
+import { Button, Card, CardHeader, Avatar, IconButton, CardMedia, CardContent, Typography, CardActions } from "@mui/material";
 import InfoIcon from '@mui/icons-material/Info';
 import DetailService from './DetailService';
 import Dialog from '@mui/material/Dialog';
