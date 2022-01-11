@@ -58,7 +58,7 @@ def login_user():
 
 @app.route('/logout', methods=['POST'])
 def logout_user():
-    resp = make_response(jsonify({'message': 'Successfully logged out.'}), 200)
+    resp = make_response(jsonify({'message': 'Successfully logged out.'}), 200 )
     resp.delete_cookie('access_token')
     return resp
 
