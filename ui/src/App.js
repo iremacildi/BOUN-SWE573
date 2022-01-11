@@ -1,34 +1,28 @@
-import { useState, useEffect } from 'react'
 import './App.css';
-import TestComponent from './Components/TestComponent'
+import { Routes, Route, Navigate } from "react-router-dom"
+//pages
+import EditService from './Pages/EditService';
+import Home from './Pages/Home';
+import Login from './Pages/Login';
+import SignUp from './Pages/Signup';
+import Profile from './Pages/Profile';
+import EditEvent from './Pages/EditEvent';
+import MyServices from './Pages/MyServices';
 
 function App() {
-  const [text, setText] = useState();
-  const [textVisible, setTextVisible] = useState(false);
-
-  useEffect(() => {
-    fetch('http://localhost:5000/test', {
-      'methods': 'GET',
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    })
-      .then(response => response.json())
-      .then(response => setText(response))
-      .catch(error => console.log(error))
-
-  }, [])
 
   return (
-    <div className="App container m-4">
-      <div className="row">
-        <div className="text-center">
-          <h1>Connecting a React Frontend to a Flask Backend</h1>
-        </div>
-      </div>
-      <button onClick={() => setTextVisible(!textVisible)}>Click</button>
-      {textVisible ? <TestComponent text={text} /> : ""}
-    </div>
+    <>
+      <Routes>
+        <Route exact path="/" element={<Home />} />
+        <Route path="/signup" element={<SignUp />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/createservice" element={<EditService />} />
+        <Route path="/myservices" element={<MyServices />} />
+        <Route path="/createevent" element={<EditEvent />} />
+        <Route path="/profile" element={<Profile />} />
+      </Routes>
+    </>
   );
 }
 
