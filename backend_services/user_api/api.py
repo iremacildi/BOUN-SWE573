@@ -23,7 +23,7 @@ def verify():
         currentuser = user_model.dump(current_user())
         return make_response(jsonify(currentuser), 200)
     except:
-        return make_response(jsonify({'message': 'Error occured during verification process.'}), 401)
+        return make_response(jsonify({'message': 'Error occured during verification process.'}), 401 )
 
 @app.route('/create', methods=['PUT'])
 def create_user():
