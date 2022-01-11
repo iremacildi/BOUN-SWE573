@@ -55,4 +55,4 @@ jobs:
               POSTGRESUSER=${{ secrets.POSTGRESUSER }}
               USERAPIURL=${{ secrets.USERAPIURL }}
               SERVICEAPIURL=${{ secrets.SERVICEAPIURL }}
-            location: 'west us'
+            location: 'east us'
