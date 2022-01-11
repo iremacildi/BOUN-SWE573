@@ -14,10 +14,10 @@ app_context.push()
 cors = CORS()
 guard = Praetorian()
 
-POSTGRES_URL = os.environ['POSTGRESURL']
-POSTGRES_USER = os.environ['POSTGRESUSER']
-POSTGRES_PASS = os.environ['POSTGRESPASS']
-POSTGRES_DB = os.environ['POSTGRESDB']
+POSTGRES_URL = config.CONFIG['POSTGRESURL']
+POSTGRES_USER = config.CONFIG['POSTGRESUSER']
+POSTGRES_PASS = config.CONFIG['POSTGRESPASS']
+POSTGRES_DB = config.CONFIG['POSTGRESDB']
 SECRET_KEY = config.CONFIG['secretKey']
 JWT_ACCESS_LIFESPAN = config.CONFIG['jwtAccessLifespan']
 JWT_REFRESH_LIFESPAN = config.CONFIG['jwtRefreshLifespan']

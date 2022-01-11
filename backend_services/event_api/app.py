@@ -11,11 +11,11 @@ app_context = app.app_context()
 app_context.push()
 cors = CORS()
 
-POSTGRES_URL = os.environ['POSTGRESURL']
-POSTGRES_USER = os.environ['POSTGRESUSER']
-POSTGRES_PASS = os.environ['POSTGRESPASS']
-POSTGRES_DB = os.environ['POSTGRESDB']
-USER_API = os.environ['USERAPIURL']
+POSTGRES_URL = config.CONFIG['POSTGRESURL']
+POSTGRES_USER = config.CONFIG['POSTGRESUSER']
+POSTGRES_PASS = config.CONFIG['POSTGRESPASS']
+POSTGRES_DB = config.CONFIG['POSTGRESDB']
+USER_API = config.CONFIG['USERAPIURL']
 SECRET_KEY = config.CONFIG['secretKey']
 DB_URL = 'postgresql+psycopg2://{user}:{pw}@{url}/{db}'.format(user=POSTGRES_USER, pw=POSTGRES_PASS, url=POSTGRES_URL, db=POSTGRES_DB)
 
@@ -33,4 +33,4 @@ ma = Marshmallow(app)
 from api import *
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=80)
+    app.run(host="0.0.0.0", port=82)

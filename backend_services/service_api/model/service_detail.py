@@ -13,8 +13,10 @@ class ServiceDetail():
     provideruserid = 0
     providerusername = 0
     isactive = True
+    tag = ""
+    tagInfo = ""
 
-    def __init__(self, id, name, description, pictureurl, location, startdate, duration, capacity, provideruserid, providerusername, isactive):
+    def __init__(self, id, name, description, pictureurl, location, startdate, duration, capacity, provideruserid, providerusername, isactive, tag, tagInfo):
         self.id = id
         self.name = name
         self.description = description
@@ -26,11 +28,13 @@ class ServiceDetail():
         self.provideruserid = provideruserid
         self.providerusername = providerusername
         self.isactive = isactive
+        self.tag = tag
+        self.tagInfo = tagInfo
 
 
 class ServiceDetailModel(ma.Schema):    
     class Meta:
         model = ServiceDetail
-        fields = ('id', 'name', 'description', 'pictureurl', 'location', 'startdate', 'duration', 'capacity', 'provideruserid', 'providerusername', 'isactive')
+        fields = ('id', 'name', 'description', 'pictureurl', 'location', 'startdate', 'duration', 'capacity', 'provideruserid', 'providerusername', 'isactive', 'tag', 'tagInfo')
 
 servicedetail_model = ServiceDetailModel()

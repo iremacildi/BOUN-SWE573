@@ -5,7 +5,7 @@ import axios from 'axios';
 import PersonalInfo from '../Components/PersonalInfo';
 
 const userapi = axios.create({
-    baseURL: process.env.REACT_APP_USERAPI,
+    baseURL: 'http://localhost',
     withCredentials: true
 })
 

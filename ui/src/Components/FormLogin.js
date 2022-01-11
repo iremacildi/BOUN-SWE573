@@ -17,7 +17,7 @@ import axios from 'axios';
 import { useNavigate } from "react-router-dom";
 
 const userapi = axios.create({
-    baseURL: 'https://dev-userapi.westus.azurecontainer.io',
+    baseURL: 'http://localhost',
     withCredentials: true
 })
 

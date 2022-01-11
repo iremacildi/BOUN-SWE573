@@ -14,8 +14,9 @@ class ServiceRepository(db.Model):
     capacity = db.Column(db.Integer)
     provideruserid = db.Column(db.Integer)
     isactive = db.Column(db.Boolean)
+    tag = db.Column(db.String(20))
 
-    def __init__(self, name, description, pictureurl, location, startdate, duration, capacity, provideruserid, isactive):
+    def __init__(self, name, description, pictureurl, location, startdate, duration, capacity, provideruserid, isactive, tag):
         self.name = name
         self.description = description
         self.pictureurl = pictureurl
@@ -25,6 +26,7 @@ class ServiceRepository(db.Model):
         self.capacity = capacity
         self.provideruserid = provideruserid
         self.isactive = isactive
+        self.tag = tag
     
     def add(self):
         db.session.add(self)
@@ -67,4 +69,9 @@ class ServiceRepository(db.Model):
     def getbyidlist(idlist):
         services = ServiceRepository.query.filter(ServiceRepository.id.in_(idlist)).all()
 
-        return services       
+        return services  
+
+    def getservicesbytag(tag):
+        services = ServiceRepository.query.filter_by(tag=tag).all()
+
+        return services

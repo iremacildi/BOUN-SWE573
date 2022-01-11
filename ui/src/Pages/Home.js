@@ -7,16 +7,16 @@ import CardService from '../Components/CardService';
 import axios from 'axios';
 
 const userapi = axios.create({
-  baseURL: process.env.REACT_APP_USERAPI,
+  baseURL: 'http://localhost',
   withCredentials: true
 })
 
 const serviceapi = axios.create({
-  baseURL: process.env.REACT_APP_SERVICEAPI
+  baseURL: 'http://localhost:81',
 })
 
 const eventapi = axios.create({
-  baseURL: process.env.REACT_APP_EVENTAPI
+  baseURL: 'http://localhost:82',
 })
 
 userapi.interceptors.request.use(
