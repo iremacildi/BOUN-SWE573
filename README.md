@@ -23,7 +23,7 @@ If a person download this repository and wants to run locally the followed steps
 * For each back-end services the below code should be run with the api’s specific directory and name <br />
   * cd backend_services/user_api <br />
   * docker build ./ -t userapi:v1 --no-cache <br />
-  * docker run --name user-api -d -p 80:80 user-api:v1 <br /> (service-api p:81, event-api p:82, feedback-api p:83, attendance-api p:84) <br />
+  * docker run --name user-api -d -p 80:80 userapi:v1 <br /> (service-api p:81, event-api p:82, feedback-api p:83, attendance-api p:84) <br />
   * docker network connect swe573-network user-api <br />
 * For the front-end, local api addresses should be provided inside code manually, because it is getting this configuration during deployment automatically. <br />
 * Then the below code should be run under /ui directory <br />
