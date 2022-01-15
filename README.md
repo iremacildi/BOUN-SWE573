@@ -25,7 +25,7 @@ If a person download this repository and wants to run locally the followed steps
   * docker build ./ -t userapi:v1 --no-cache <br />
   * docker run --name user-api -d -p 80:80 userapi:v1 <br /> (service-api p:81, event-api p:82, feedback-api p:83, attendance-api p:84) <br />
   * docker network connect swe573-network user-api <br />
-* For the front-end, local api addresses should be provided inside code manually, because it is getting this configuration during deployment automatically. <br />
+* For the front-end and back-end, api addresses should be provided as local (localhost:81 etc.) inside code manually, because it is getting this configuration during deployment automatically. <br />
 * Then the below code should be run under /ui directory <br />
   * npm install <br />
   *	npm start <br />
