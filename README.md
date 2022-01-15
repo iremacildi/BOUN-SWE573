@@ -19,14 +19,16 @@ If a person download this repository and wants to run locally the followed steps
 * Install PostgreSQL, Python 3.9.7, NodeJS 14.x <br />
 * Run psql -f postgres_dump.sql -p <port> -U <username> <dbname> <br />
 (Because db credentials are given in secret keys, those parts in code should be changed according to new connection credentials) <br />
+* Run -> docker network create swe573-network
 * For each back-end services the below code should be run with the api’s specific directory and name <br />
   * cd backend_services/user_api <br />
-  * docker build ./ -t user_api:v1 -no-cache <br />
-  * docker run -d -p 80:80 user_api:v1 <br />
+  * docker build ./ -t userapi:v1 --no-cache <br />
+  * docker run --name user-api -d -p 80:80 user-api:v1 <br /> (service-api p:81, event-api p:82, feedback-api p:83, attendance-api p:84) <br />
+  * docker network connect swe573-network user-api <br />
 * For the front-end, local api addresses should be provided inside code manually, because it is getting this configuration during deployment automatically. <br />
 * Then the below code should be run under /ui directory <br />
   * npm install <br />
-  *	npm run <br />
+  *	npm start <br />
 *	System should be up and ready locally.
 
 ## User Manual
